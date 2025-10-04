@@ -3,14 +3,18 @@ import react from '@vitejs/plugin-react';
 import { viteSingleFile } from 'vite-plugin-singlefile';
 
 export default defineConfig(({ mode }) => {
-  // Single-file when: --mode single OR env SINGLE_FILE=1
+  // flip single-file when either flag is present
   const isSingle = mode === 'single' || process.env.SINGLE_FILE === '1';
+
+  // helpful log (shows in CI logs)
+  // eslint-disable-next-line no-console
+  console.log(`[vite-config] mode=${mode} SINGLE_FILE=${process.env.SINGLE_FILE ?? ''} isSingle=${isSingle}`);
 
   const plugins = [react()];
   if (isSingle) plugins.push(viteSingleFile());
 
   return {
-    // Multi-file (Pages) needs the repo subpath; single-file doesn’t.
+    // Multi-file (Pages) needs the repo subpath; single-file doesn't.
     base: isSingle ? '' : '/paldea-team-planner/',
     plugins,
     build: isSingle

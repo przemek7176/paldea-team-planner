@@ -1,7 +1,7 @@
 name: CI
 on:
   push:
-    branches: ["**"]          # run on every branch
+    branches: ["**"]
   pull_request:
   workflow_dispatch:
 
@@ -25,34 +25,31 @@ jobs:
       - run: npm ci
       - run: npm run lint
 
-      # print scripts so we see what this ref exposes (useful for debugging)
+      # print scripts so we know what this ref exposes
       - run: node -e "console.log(require('./package.json').scripts)"
 
-      # Vitest (use explicit config; fall back to plain in case of older refs)
+      # Vitest (explicit; fallback left for older refs if needed)
       - run: npm run test:ci || npm run test -- --run
 
-      # Playwright: install browsers + system deps (supported on ubuntu-latest)
+      # Playwright: browsers + system deps
       - run: npx playwright install --with-deps
-
-      # E2E
       - run: npm run e2e:ci
 
       # Build single-file (verbose)
       - run: DEBUG=vite:* npm run build:single
 
-      # Assert we really produced a single-file HTML (no external assets / module scripts)
+      # Assert: no external assets / module scripts
       - name: Assert single-file output
         run: |
           ls -la dist
           wc -c < dist/index.html
           if grep -E 'src="/|href="/' dist/index.html | grep -E '/assets/|type="module"'; then
-            echo "❌ Found external asset references in dist/index.html. Single-file build failed."
+            echo "❌ Found external JS/CSS references in dist/index.html. Single-file build failed."
             exit 1
           else
             echo "✅ No external JS/CSS references; single-file looks correct."
           fi
 
-      # Upload single-file artifact for handoff
       - uses: actions/upload-artifact@v4
         with:
           name: paldea_team_planner_single
@@ -76,7 +73,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      # Ensure Pages is enabled, then deploy multi-file build
       - uses: actions/configure-pages@v5
         with:
           enablement: true
