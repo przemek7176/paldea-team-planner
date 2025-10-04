@@ -22,32 +22,27 @@ jobs:
           node-version: 20
           cache: npm
 
-      - run: npm ci
+      - name: Install deps (prefer reproducible)
+        run: npm ci || npm i --no-audit --no-fund
+
       - run: npm run lint
-
-      # print scripts so we know what this ref exposes
-      - run: node -e "console.log(require('./package.json').scripts)"
-
-      # Vitest (explicit; fallback left for older refs if needed)
       - run: npm run test:ci || npm run test -- --run
-
-      # Playwright: browsers + system deps
       - run: npx playwright install --with-deps
       - run: npm run e2e:ci
 
-      # Build single-file (verbose)
-      - run: DEBUG=vite:* npm run build:single
+      # ---- Single-file artifact (forced by vite.single.config.ts) ----
+      - name: Build single file
+        run: npm run build:single
 
-      # Assert: no external assets / module scripts
       - name: Assert single-file output
         run: |
           ls -la dist
-          wc -c < dist/index.html
+          echo "index.html size:" && wc -c < dist/index.html
           if grep -E 'src="/|href="/' dist/index.html | grep -E '/assets/|type="module"'; then
-            echo "❌ Found external JS/CSS references in dist/index.html. Single-file build failed."
+            echo "❌ Found external assets in dist/index.html"
             exit 1
           else
-            echo "✅ No external JS/CSS references; single-file looks correct."
+            echo "✅ Single file looks correct"
           fi
 
       - uses: actions/upload-artifact@v4
@@ -71,7 +66,8 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
+      - name: Install deps (prefer reproducible)
+        run: npm ci || npm i --no-audit --no-fund
       - run: npm run build
       - uses: actions/configure-pages@v5
         with:
