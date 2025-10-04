@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Use a relative path so it works under the Pages subpath -->
     <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>paldea-team-planner</title>
@@ -10,64 +9,101 @@
     <!-- PokeAPI 404 fixer: must run BEFORE the app boots -->
     <script>
       (() => {
-        const origFetch = window.fetch.bind(window);
-        const speciesDefaultCache = new Map();
+        // Known species -> default form slugs that exist under /pokemon/
+        const POKE_CANON = {
+          // forms-only species
+          lycanroc: 'lycanroc-midday',
+          oricorio: 'oricorio-baile',
+          maushold: 'maushold-family-of-three',
+          dudunsparce: 'dudunsparce-two-segment',
+          indeedee: 'indeedee-male',
+          eiscue: 'eiscue-ice',
+          tatsugiri: 'tatsugiri-curly',
+          palafin: 'palafin-zero',
+          toxtricity: 'toxtricity-amped',
+          basculin: 'basculin-red-striped',
+          squawkabilly: 'squawkabilly-green-plumage',
+          mimikyu: 'mimikyu-disguised',
+          // species that *do* have a base entry keep themselves
+          oinkologne: 'oinkologne'
+        };
 
-        function normalizeSpeciesSlug(slug) {
-          // Drop trailing “:1”, “:2”, etc. (your app sometimes appends these)
-          return String(slug || '').toLowerCase().trim().replace(/:\d+$/, '');
-        }
+        const speciesDefaultCache = new Map();
+        const origFetch = window.fetch.bind(window);
+        const normalize = (s) => String(s || '').toLowerCase().trim().replace(/:\d+$/, '');
 
         async function resolveDefaultPokemonName(speciesSlug) {
-          const key = normalizeSpeciesSlug(speciesSlug);
+          const key = normalize(speciesSlug);
+          if (POKE_CANON[key]) return POKE_CANON[key];
           if (speciesDefaultCache.has(key)) return speciesDefaultCache.get(key);
 
           const specUrl = `https://pokeapi.co/api/v2/pokemon-species/${encodeURIComponent(key)}/`;
-          const specRes = await origFetch(specUrl);
-          if (!specRes.ok) throw new Error(`Species lookup failed: ${key} (${specRes.status})`);
-
-          const spec = await specRes.json();
-          const varieties = Array.isArray(spec.varieties) ? spec.varieties : [];
-          const defVar = varieties.find(v => v.is_default) || varieties[0];
-          const defName = defVar && defVar.pokemon && defVar.pokemon.name;
-          if (!defName) throw new Error(`No default variety for species: ${key}`);
+          const res = await origFetch(specUrl);
+          if (!res.ok) throw new Error(`Species lookup failed: ${key} (${res.status})`);
+          const spec = await res.json();
+          const v = (spec.varieties || []).find(v => v.is_default) || (spec.varieties || [])[0];
+          const defName = v?.pokemon?.name;
+          if (!defName) throw new Error(`No default variety for: ${key}`);
           speciesDefaultCache.set(key, defName);
           return defName;
         }
 
+        function canonicalizePathIfPokemon(u) {
+          const m = /^\/api\/v2\/pokemon\/([^/]+)\/?$/i.exec(u.pathname);
+          if (!m) return null;
+          const raw = decodeURIComponent(m[1]);
+          const key = normalize(raw);
+          const mapped = POKE_CANON[key];
+          return mapped && mapped !== raw ? `/api/v2/pokemon/${encodeURIComponent(mapped)}/` : null;
+        }
+
+        // --- Intercept fetch (async-safe, with species fallback) ---
         window.fetch = async function (input, init) {
           try {
             const req = input instanceof Request ? input : new Request(input, init);
             const url = new URL(req.url, location.origin);
 
-            // Only intercept PokeAPI pokemon/<name> lookups
-            const m = /^\/api\/v2\/pokemon\/([^/]+)\/?$/i.exec(url.pathname);
-            const isPoke = /(^|\.)pokeapi\.co$/i.test(url.hostname) && !!m;
-            if (!isPoke) return origFetch(req);
-
-            // First try the original request
-            let res = await origFetch(req);
-            if (res.status !== 404) return res;
-
-            // On 404: resolve species -> default variety -> retry pokemon/<variety>
-            const slugRaw = decodeURIComponent(m[1]);
-            const speciesSlug = normalizeSpeciesSlug(slugRaw);
-            const defName = await resolveDefaultPokemonName(speciesSlug);
-
-            // Avoid infinite loop if defName === original slug
-            if (defName && defName !== slugRaw) {
-              const fixed = new URL(
-                `/api/v2/pokemon/${encodeURIComponent(defName)}/`,
-                `${url.protocol}//${url.host}`
-              ).toString();
-              return origFetch(fixed, init);
+            if (/(^|\.)pokeapi\.co$/i.test(url.hostname)) {
+              // 1) rewrite to known canonical first (prevents the initial 404)
+              const canon = canonicalizePathIfPokemon(url);
+              if (canon) {
+                url.pathname = canon;
+                return origFetch(url.toString(), init);
+              }
             }
 
-            return res; // fall back to original 404
+            // 2) do original request
+            let res = await origFetch(req);
+            // 3) on 404 to pokemon/<species>, resolve via species -> default variety
+            if (res.status === 404 && /(^|\.)pokeapi\.co$/i.test(new URL(req.url).hostname)) {
+              const m = /^\/api\/v2\/pokemon\/([^/]+)\/?$/i.exec(new URL(req.url).pathname);
+              if (m) {
+                const slug = normalize(decodeURIComponent(m[1]));
+                const defName = await resolveDefaultPokemonName(slug);
+                const fixed = new URL(`/api/v2/pokemon/${encodeURIComponent(defName)}/`, 'https://pokeapi.co').toString();
+                return origFetch(fixed, init);
+              }
+            }
+            return res;
           } catch {
-            // If anything goes wrong, fall back to the original fetch
             return origFetch(input, init);
           }
+        };
+
+        // --- Intercept XHR too (sync URL rewrite using the canonical map only) ---
+        const origOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url, ...rest) {
+          try {
+            const u = new URL(url, location.href);
+            if (/(^|\.)pokeapi\.co$/i.test(u.hostname)) {
+              const canon = canonicalizePathIfPokemon(u);
+              if (canon) {
+                u.pathname = canon;
+                url = u.toString();
+              }
+            }
+          } catch {}
+          return origOpen.call(this, method, url, ...rest);
         };
       })();
     </script>
@@ -125,6 +161,7 @@
           console.table([
             { name: 'Root node exists', ok: !!document.getElementById('root') },
             { name: 'localStorage JSON valid', ok: bad.length === 0, note: bad.join(',') },
+            { name: 'fetch patched', ok: ('' + window.fetch).includes('POKE_CANON') }
           ]);
           alert('Self-Test done. See console.');
         };
