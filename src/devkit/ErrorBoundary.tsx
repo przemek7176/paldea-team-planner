@@ -1,21 +1,59 @@
-import React from 'react';
+// src/devkit/ErrorBoundary.tsx
+import React from "react";
 
-export class AppErrorBoundary extends React.Component<
-  { children: React.ReactNode },
-  { err: any; info?: { componentStack?: string } | null }
-> {
-  constructor(props: any){ super(props); this.state = { err: null, info: null }; }
-  static getDerivedStateFromError(err: any){ return { err, info: null }; }
-  componentDidCatch(err: any, info: { componentStack?: string }){ this.setState({ err, info }); try{ console.error(err, info);}catch{} }
-  render(){
-    if (this.state.err){
+type ErrorBoundaryProps = {
+  children: React.ReactNode;
+  /** Optional UI to show when an error occurs */
+  fallback?: React.ReactNode;
+  /** Called when the user clicks “Reload” on the fallback UI */
+  onReset?: () => void;
+};
+
+type ErrorBoundaryState = {
+  hasError: boolean;
+  error?: Error;
+  info?: React.ErrorInfo;
+};
+
+export default class ErrorBoundary
+  extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  state: ErrorBoundaryState = { hasError: false };
+
+  static getDerivedStateFromError(): ErrorBoundaryState {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    this.setState({ error, info });
+    // Optional: log to console or remote
+    // eslint-disable-next-line no-console
+    console.error("UI crashed:", error, info?.componentStack);
+  }
+
+  private handleReset = () => {
+    this.setState({ hasError: false, error: undefined, info: undefined });
+    this.props.onReset?.();
+  };
+
+  render() {
+    if (this.state.hasError) {
+      if (this.props.fallback) return this.props.fallback;
+
       return (
-        <div className="max-w-3xl mx-auto p-4">
-          <h2 className="text-lg font-semibold mb-2">Something crashed</h2>
-          <pre className="text-xs bg-black text-white p-3 rounded overflow-auto" style={{whiteSpace:'pre-wrap'}}>
-            {(this.state.err?.stack || String(this.state.err)) + '\n' + (this.state.info?.componentStack || '')}
-          </pre>
-          <button className="mt-3 px-3 py-2 rounded border" onClick={()=>location.reload()}>Reload</button>
+        <div role="alert" className="p-4 border rounded-md bg-red-50 text-red-700">
+          <h2 className="font-semibold mb-2">Something went wrong.</h2>
+          {this.state.error?.message && (
+            <pre className="whitespace-pre-wrap text-sm">
+              {this.state.error.message}
+            </pre>
+          )}
+          <button
+            type="button"
+            onClick={this.handleReset}
+            className="mt-2 px-3 py-1 rounded-md border"
+          >
+            Reload
+          </button>
         </div>
       );
     }

@@ -1,16 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import App from './App'
-import { AppErrorBoundary } from './devkit/ErrorBoundary'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
+import ErrorBoundary from "./devkit/ErrorBoundary";
 
-const dev = /\bdev=1\b/.test(location.search)
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  dev ? (
-    <AppErrorBoundary>
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <ErrorBoundary>
       <App />
-    </AppErrorBoundary>
-  ) : (
-    <App />
-  )
-)
+    </ErrorBoundary>
+  </React.StrictMode>
+);
