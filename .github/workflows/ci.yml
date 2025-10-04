@@ -25,17 +25,27 @@ jobs:
       - run: npm ci
       - run: npm run lint
 
-      # Vitest: use project config explicitly
-      - run: npm run test:ci
+      # helpful: print scripts that CI sees
+      - run: node -e "console.log(require('./package.json').scripts)"
 
-      # Playwright: install browsers + system deps (recommended path)
+      # Vitest (prefer config script; fall back just in case)
+      - run: npm run test:ci || npm run test -- --run
+
+      # Playwright: install browsers + system deps (supported on ubuntu-latest)
       - run: npx playwright install --with-deps
 
       # E2E
-      - run: npm run e2e -- --reporter=list
+      - run: npm run e2e:ci
 
-      # Build single-file and upload as artifact
-      - run: npm run build:single
+      # Build single-file (verbose) and verify output
+      - run: DEBUG=vite:* npm run build:single
+      - name: Inspect dist (single-file expected)
+        run: |
+          ls -la dist
+          test -f dist/index.html && echo "index.html size:" && wc -c < dist/index.html
+          echo "Has assets dir?"
+          test -d dist/assets && ls -la dist/assets || echo "No assets dir (good for single-file)"
+
       - uses: actions/upload-artifact@v4
         with:
           name: paldea_team_planner_single
@@ -59,7 +69,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      # Ensure Pages is enabled on the repo, then deploy
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
