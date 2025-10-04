@@ -4,3 +4,6 @@ dist
 .playwright-cache
 .DS_Store
 coverage
+test-results/
+playwright-report/
+coverage/
