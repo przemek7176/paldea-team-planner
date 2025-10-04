@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Use a relative path so it works under the Pages subpath -->
     <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>paldea-team-planner</title>
@@ -19,7 +18,7 @@
           const el = document.createElement('div');
           el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);color:#fff;font:14px ui-monospace,Menlo,Consolas;z-index:999999;padding:24px;overflow:auto';
           el.innerHTML = `<div style="max-width:1000px;margin:0 auto">
-            <h2 style="margin:0 0 8px;font-size:18px">ðŸ’¥ ${title}</h2>
+            <h2 style="margin:0 0 8px;font-size:18px">í²¥ ${title}</h2>
             <pre style="white-space:pre-wrap;margin:0 0 8px">${msg}</pre>
             <pre style="white-space:pre-wrap;opacity:.8">${stack || ''}</pre>
             <button id="fatal-close" style="margin-top:12px">Dismiss</button></div>`;
@@ -34,7 +33,6 @@
           show('Unhandled Promise Rejection', String(r.message || r || 'Unknown'), r.stack);
         });
 
-        // Tiny self-test panel
         const panel = document.createElement('div');
         panel.style.cssText = 'position:fixed;right:8px;bottom:8px;z-index:999999;background:#111;color:#fff;padding:8px 10px;border-radius:8px;font:12px ui-monospace,Menlo,Consolas';
         panel.innerHTML = '<button id="run-st">Self-Test</button> <button id="clr">Clear cache</button>';

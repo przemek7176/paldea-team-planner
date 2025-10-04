@@ -3,6 +3,7 @@ name: Build & Deploy (Vite → GitHub Pages + single-file artifact)
 on:
   push:
     branches: [ main ]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -27,13 +28,13 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      # --- Standard multi-file build for GitHub Pages ---
+      # Multi-file build for GitHub Pages
       - name: Build (multi-file, Pages)
         run: npm run build
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
 
-      # SPA fallback so refresh on deep links works on Pages
+      # SPA fallback
       - name: Add 404 fallback
         run: cp dist/index.html dist/404.html
 
@@ -42,7 +43,7 @@ jobs:
         with:
           path: dist
 
-      # --- Single-file build for easy local preview / artifact download ---
+      # Single-file portable artifact (double-clickable)
       - name: Build (single-file, portable index.html)
         run: npm run build:single
 
@@ -53,6 +54,7 @@ jobs:
           path: dist/index.html
 
   deploy:
+    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment:
