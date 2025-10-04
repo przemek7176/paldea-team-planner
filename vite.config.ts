@@ -1,8 +1,13 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-// Normal Multi-file build (used by: npm run build, GitHub Pages)
+// Auto-detect GitHub Pages base for this repo; "/" when served locally
+const repo = process.env.GITHUB_REPOSITORY?.split('/')[1] || ''
 export default defineConfig({
-  base: '/paldea-team-planner/',   // required for Pages
   plugins: [react()],
-});
+  base: repo ? `/${repo}/` : '/',
+  build: {
+    target: 'esnext',
+    chunkSizeWarningLimit: 1500,
+  },
+})

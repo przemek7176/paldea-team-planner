@@ -1,15 +1,17 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import "./index.css";
-import ErrorBoundary from "./devkit/ErrorBoundary";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import './index.css'
+import ErrorBoundary from './devkit/ErrorBoundary'
 
-const isDev = new URLSearchParams(window.location.search).has("dev");
+// Standardize on `?dev=1` for DevKit
+const isDevKit = new URLSearchParams(location.search).get('dev') === '1'
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ErrorBoundary dev={isDev}>
+    {/* Keep the boundary always — verbose diagnostics only when ?dev=1 */}
+    <ErrorBoundary dev={isDevKit}>
       <App />
     </ErrorBoundary>
   </React.StrictMode>
-);
+)
