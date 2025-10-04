@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+body { @apply bg-gray-50 text-gray-900; }
+
+@layer components {
+  /* move chips + small tags */
+  .pill { @apply inline-flex items-center px-2 py-0.5 rounded-full bg-gray-100 text-gray-800 text-sm border mr-2 mb-1; }
+  .pill:last-child { @apply mr-0; }
+
+  /* optional tag style (used for “why” reasons in Suggestions) */
+  .tag  { @apply inline-flex items-center px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[11px] border border-blue-200 mr-1 mb-1; }
+  .muted { @apply text-gray-500; }
+}
+
+@layer components {
+  .pill { @apply inline-flex items-center px-2 py-0.5 rounded-full bg-gray-100 text-gray-800 text-sm border mr-2 mb-1; }
+  .pill:last-child { @apply mr-0; }
+  .tag  { @apply inline-flex items-center px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[11px] border border-blue-200 mr-1 mb-1; }
+  .muted { @apply text-gray-500; }
+}
