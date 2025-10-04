@@ -6,6 +6,71 @@
     <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>paldea-team-planner</title>
+
+    <!-- PokeAPI 404 fixer: must run BEFORE the app boots -->
+    <script>
+      (() => {
+        const origFetch = window.fetch.bind(window);
+        const speciesDefaultCache = new Map();
+
+        function normalizeSpeciesSlug(slug) {
+          // Drop trailing “:1”, “:2”, etc. (your app sometimes appends these)
+          return String(slug || '').toLowerCase().trim().replace(/:\d+$/, '');
+        }
+
+        async function resolveDefaultPokemonName(speciesSlug) {
+          const key = normalizeSpeciesSlug(speciesSlug);
+          if (speciesDefaultCache.has(key)) return speciesDefaultCache.get(key);
+
+          const specUrl = `https://pokeapi.co/api/v2/pokemon-species/${encodeURIComponent(key)}/`;
+          const specRes = await origFetch(specUrl);
+          if (!specRes.ok) throw new Error(`Species lookup failed: ${key} (${specRes.status})`);
+
+          const spec = await specRes.json();
+          const varieties = Array.isArray(spec.varieties) ? spec.varieties : [];
+          const defVar = varieties.find(v => v.is_default) || varieties[0];
+          const defName = defVar && defVar.pokemon && defVar.pokemon.name;
+          if (!defName) throw new Error(`No default variety for species: ${key}`);
+          speciesDefaultCache.set(key, defName);
+          return defName;
+        }
+
+        window.fetch = async function (input, init) {
+          try {
+            const req = input instanceof Request ? input : new Request(input, init);
+            const url = new URL(req.url, location.origin);
+
+            // Only intercept PokeAPI pokemon/<name> lookups
+            const m = /^\/api\/v2\/pokemon\/([^/]+)\/?$/i.exec(url.pathname);
+            const isPoke = /(^|\.)pokeapi\.co$/i.test(url.hostname) && !!m;
+            if (!isPoke) return origFetch(req);
+
+            // First try the original request
+            let res = await origFetch(req);
+            if (res.status !== 404) return res;
+
+            // On 404: resolve species -> default variety -> retry pokemon/<variety>
+            const slugRaw = decodeURIComponent(m[1]);
+            const speciesSlug = normalizeSpeciesSlug(slugRaw);
+            const defName = await resolveDefaultPokemonName(speciesSlug);
+
+            // Avoid infinite loop if defName === original slug
+            if (defName && defName !== slugRaw) {
+              const fixed = new URL(
+                `/api/v2/pokemon/${encodeURIComponent(defName)}/`,
+                `${url.protocol}//${url.host}`
+              ).toString();
+              return origFetch(fixed, init);
+            }
+
+            return res; // fall back to original 404
+          } catch {
+            // If anything goes wrong, fall back to the original fetch
+            return origFetch(input, init);
+          }
+        };
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
@@ -17,7 +82,8 @@
 
         const show = (title, msg, stack) => {
           const el = document.createElement('div');
-          el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);color:#fff;font:14px ui-monospace,Menlo,Consolas;z-index:999999;padding:24px;overflow:auto';
+          el.style.cssText =
+            'position:fixed;inset:0;background:rgba(0,0,0,.85);color:#fff;font:14px ui-monospace,Menlo,Consolas;z-index:999999;padding:24px;overflow:auto';
           el.innerHTML = `<div style="max-width:1000px;margin:0 auto">
             <h2 style="margin:0 0 8px;font-size:18px">💥 ${title}</h2>
             <pre style="white-space:pre-wrap;margin:0 0 8px">${msg}</pre>
@@ -28,7 +94,9 @@
           console.error('[FATAL]', title, msg, stack);
         };
 
-        window.addEventListener('error', (e) => show('Unhandled Error', String(e.message || e.error), e.error?.stack));
+        window.addEventListener('error', (e) =>
+          show('Unhandled Error', String(e.message || e.error), e.error?.stack)
+        );
         window.addEventListener('unhandledrejection', (e) => {
           const r = e.reason || {};
           show('Unhandled Promise Rejection', String(r.message || r || 'Unknown'), r.stack);
@@ -36,74 +104,32 @@
 
         // Tiny self-test panel
         const panel = document.createElement('div');
-        panel.style.cssText = 'position:fixed;right:8px;bottom:8px;z-index:999999;background:#111;color:#fff;padding:8px 10px;border-radius:8px;font:12px ui-monospace,Menlo,Consolas';
+        panel.style.cssText =
+          'position:fixed;right:8px;bottom:8px;z-index:999999;background:#111;color:#fff;padding:8px 10px;border-radius:8px;font:12px ui-monospace,Menlo,Consolas';
         panel.innerHTML = '<button id="run-st">Self-Test</button> <button id="clr">Clear cache</button>';
         document.body.appendChild(panel);
-        document.getElementById('clr').onclick = () => { localStorage.clear(); location.reload(); };
+        document.getElementById('clr').onclick = () => {
+          localStorage.clear();
+          location.reload();
+        };
         document.getElementById('run-st').onclick = () => {
-          const keys = ['ownedMoves','ownedMonIds','monMoves','monLevels'];
-          const bad = keys.filter(k => { try { const v = localStorage.getItem(k); return v && !JSON.parse(v); } catch { return true; }});
+          const keys = ['ownedMoves', 'ownedMonIds', 'monMoves', 'monLevels'];
+          const bad = keys.filter((k) => {
+            try {
+              const v = localStorage.getItem(k);
+              return v && !JSON.parse(v);
+            } catch {
+              return true;
+            }
+          });
           console.table([
             { name: 'Root node exists', ok: !!document.getElementById('root') },
-            { name: 'localStorage JSON valid', ok: bad.length === 0, note: bad.join(',') }
+            { name: 'localStorage JSON valid', ok: bad.length === 0, note: bad.join(',') },
           ]);
           alert('Self-Test done. See console.');
         };
       })();
     </script>
-    
-<!-- PokeAPI 404 fixer: resolve species -> default variety -> pokemon form -->
-<script>
-(() => {
-  const origFetch = window.fetch.bind(window);
-  const speciesDefaultCache = new Map();
-
-  async function resolveDefaultPokemonName(speciesSlug) {
-    const key = speciesSlug.toLowerCase().trim();
-    if (speciesDefaultCache.has(key)) return speciesDefaultCache.get(key);
-
-    const specUrl = `https://pokeapi.co/api/v2/pokemon-species/${encodeURIComponent(key)}/`;
-    const specRes = await origFetch(specUrl);
-    if (!specRes.ok) throw new Error(`Species lookup failed: ${key} (${specRes.status})`);
-
-    const spec = await specRes.json();
-    const defVar = (spec.varieties || []).find(v => v.is_default) || (spec.varieties || [])[0];
-    const defName = defVar && defVar.pokemon && defVar.pokemon.name;
-    if (!defName) throw new Error(`No default variety for species: ${key}`);
-    speciesDefaultCache.set(key, defName);
-    return defName;
-  }
-
-  window.fetch = async function (input, init) {
-    try {
-      const req = input instanceof Request ? input : new Request(input, init);
-      const url = new URL(req.url, location.origin);
-
-      // Only intercept PokeAPI pokemon/ calls
-      const matchesPoke =
-        /(^|\.)pokeapi\.co$/i.test(url.hostname) &&
-        /^\/api\/v2\/pokemon\/([^/]+)\/?$/i.test(url.pathname);
-
-      if (!matchesPoke) {
-        return origFetch(req);
-      }
-
-      // Try original request first
-      let res = await origFetch(req);
-      if (res.status !== 404) return res;
-
-      // On 404: resolve species -> default variety -> retry pokemon/<variety>
-      const slug = decodeURIComponent(url.pathname.split('/').pop() || '').toLowerCase();
-      const defName = await resolveDefaultPokemonName(slug);
-      const fixed = new URL(`/api/v2/pokemon/${encodeURIComponent(defName)}/`, `${url.protocol}//${url.host}`).toString();
-      return origFetch(fixed, init);
-    } catch (e) {
-      // If anything goes wrong, fall back to the original fetch
-      return origFetch(input, init);
-    }
-  };
-})();
-</script>
 
     <!-- Vite entry (source) -->
     <script type="module" src="/src/main.tsx"></script>
