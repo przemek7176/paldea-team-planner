@@ -1,4 +1,4 @@
-name: Build & Deploy (Vite → GitHub Pages)
+name: Build & Deploy (Vite → GitHub Pages + single-file artifact)
 
 on:
   push:
@@ -23,17 +23,34 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      - name: Install deps (reproducible)
+
+      - name: Install deps
         run: npm ci
-      - name: Build (Vite; base auto-detected from repo)
+
+      # --- Standard multi-file build for GitHub Pages ---
+      - name: Build (multi-file, Pages)
         run: npm run build
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
-      # SPA fallback for deep links on Pages
-      - run: cp dist/index.html dist/404.html
-      - uses: actions/upload-pages-artifact@v3
+
+      # SPA fallback so refresh on deep links works on Pages
+      - name: Add 404 fallback
+        run: cp dist/index.html dist/404.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+
+      # --- Single-file build for easy local preview / artifact download ---
+      - name: Build (single-file, portable index.html)
+        run: npm run build:single
+
+      - name: Upload single-file artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: single-file-build
+          path: dist/index.html
 
   deploy:
     needs: build
