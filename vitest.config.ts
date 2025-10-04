@@ -2,9 +2,9 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    // Only run unit tests from src/**
+    // Only unit tests under src/**
     include: ['src/**/*.test.{ts,tsx}', 'src/**/*.spec.{ts,tsx}'],
-    // Do NOT pick up Playwright specs
+    // Keep Playwright specs out of Vitest
     exclude: [
       'node_modules',
       'dist',
@@ -12,8 +12,9 @@ export default defineConfig({
       '.git',
       '.cache',
       'cypress',
-      'tests/**', // <— keep Playwright in its own runner
+      'tests/**',
     ],
     environment: 'node',
+    globals: true, // Vitest provides describe/it/expect without touching tsconfig types
   },
 });
