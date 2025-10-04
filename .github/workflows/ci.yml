@@ -1,9 +1,13 @@
 name: CI
 on:
   push:
-    branches: [ main ]
+    branches: ["**"]         # run on every branch
   pull_request:
   workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-test:
@@ -14,16 +18,22 @@ jobs:
         with:
           node-version: 20
           cache: npm
+
       - run: npm ci
       - run: npm run lint
-      - run: npm run test -- --run
-      - run: npx playwright install --with-deps
+      - run: npm run test:ci            # <— use vitest config explicitly
+
+      # install Playwright browsers (faster & reliable than npx install)
+      - uses: microsoft/playwright-github-action@v1
+
       - run: npm run e2e -- --reporter=list
       - run: npm run build:single
+
       - uses: actions/upload-artifact@v4
         with:
           name: paldea_team_planner_single
           path: dist/index.html
+          retention-days: 7
 
   pages:
     needs: build-test
@@ -39,6 +49,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
