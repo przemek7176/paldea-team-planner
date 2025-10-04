@@ -9,8 +9,10 @@
     "build:single": "vite build --mode single",
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
-    "test": "vitest run",
-    "test:ui": "vitest",
+    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",                       // local watch UI
+    "test:ci": "vitest --run --config vitest.config.ts",  // CI uses this
     "e2e": "playwright test"
   },
   "dependencies": {
