@@ -9,6 +9,9 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   build-test:
     runs-on: ubuntu-latest
@@ -21,14 +24,21 @@ jobs:
 
       - run: npm ci
       - run: npm run lint
-      - run: npm run test:ci            # <— use vitest config explicitly
 
-      # install Playwright browsers (faster & reliable than npx install)
+      # Debug: print scripts so we know what this ref actually has
+      - run: node -e "console.log(require('./package.json').scripts)"
+
+      # Vitest (must exist in package.json as: test:ci)
+      - run: npm run test:ci
+
+      # Install Playwright browsers
       - uses: microsoft/playwright-github-action@v1
 
+      # E2E
       - run: npm run e2e -- --reporter=list
-      - run: npm run build:single
 
+      # Build single-file and upload as artifact
+      - run: npm run build:single
       - uses: actions/upload-artifact@v4
         with:
           name: paldea_team_planner_single
@@ -41,6 +51,9 @@ jobs:
     permissions:
       pages: write
       id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -53,4 +66,5 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-      - uses: actions/deploy-pages@v4
+      - id: deployment
+        uses: actions/deploy-pages@v4
