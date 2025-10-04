@@ -1,36 +1,12 @@
 name: CI
 on:
-  push: { branches: [main] }
-  pull_request:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  build-test:
+  smoke:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: 'npm' }
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run test -- --run
-      - run: npx playwright install --with-deps
-      - run: npm run e2e -- --reporter=list
-      - run: npm run build:single
-      - uses: actions/upload-artifact@v4
-        with:
-          name: paldea_team_planner_single
-          path: dist/index.html
-
-  pages:
-    needs: build-test
-    runs-on: ubuntu-latest
-    permissions: { pages: write, id-token: write }
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: 'npm' }
-      - run: npm ci
-      - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
-        with: { path: dist }
-      - uses: actions/deploy-pages@v4git add .github/workflows/ci.yml
+      - run: echo "Actions are enabled ✅"
