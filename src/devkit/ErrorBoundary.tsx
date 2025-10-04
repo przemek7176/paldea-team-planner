@@ -1,12 +1,11 @@
-// src/devkit/ErrorBoundary.tsx
-import React from "react";
+import React, { ReactNode } from 'react';
 
 type ErrorBoundaryProps = {
-  children: React.ReactNode;
-  /** Optional UI to show when an error occurs */
+  children: ReactNode;
+  /** When true (e.g., ?dev=1), show detailed diagnostics. */
+  dev?: boolean;
+  /** Optional custom fallback node. */
   fallback?: React.ReactNode;
-  /** Called when the user clicks “Reload” on the fallback UI */
-  onReset?: () => void;
 };
 
 type ErrorBoundaryState = {
@@ -15,45 +14,44 @@ type ErrorBoundaryState = {
   info?: React.ErrorInfo;
 };
 
-export default class ErrorBoundary
-  extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export default class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   state: ErrorBoundaryState = { hasError: false };
 
-  static getDerivedStateFromError(): ErrorBoundaryState {
-    return { hasError: true };
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, info: React.ErrorInfo) {
-    this.setState({ error, info });
-    // Optional: log to console or remote
-    // eslint-disable-next-line no-console
-    console.error("UI crashed:", error, info?.componentStack);
+  componentDidCatch(error: Error, info: React.ErrorInfo): void {
+    if (this.props.dev) {
+      // eslint-disable-next-line no-console
+      console.error('[ErrorBoundary]', error, info);
+    }
+    this.setState({ info });
   }
 
-  private handleReset = () => {
-    this.setState({ hasError: false, error: undefined, info: undefined });
-    this.props.onReset?.();
-  };
-
-  render() {
+  render(): React.ReactNode {
     if (this.state.hasError) {
       if (this.props.fallback) return this.props.fallback;
 
-      return (
-        <div role="alert" className="p-4 border rounded-md bg-red-50 text-red-700">
-          <h2 className="font-semibold mb-2">Something went wrong.</h2>
-          {this.state.error?.message && (
-            <pre className="whitespace-pre-wrap text-sm">
-              {this.state.error.message}
+      if (this.props.dev) {
+        return (
+          <div className="p-4 rounded border border-red-200 bg-red-50 text-red-700">
+            <div className="font-semibold">Something went wrong.</div>
+            <pre className="text-xs mt-2 whitespace-pre-wrap">
+              {this.state.error?.message}
+              {'\n'}
+              {this.state.info?.componentStack}
             </pre>
-          )}
-          <button
-            type="button"
-            onClick={this.handleReset}
-            className="mt-2 px-3 py-1 rounded-md border"
-          >
-            Reload
-          </button>
+          </div>
+        );
+      }
+
+      return (
+        <div role="alert" className="p-4 rounded border bg-red-50 text-red-700">
+          Something went wrong. Please reload the page.
         </div>
       );
     }
