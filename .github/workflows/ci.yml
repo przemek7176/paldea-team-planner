@@ -1,7 +1,7 @@
 name: CI
 on:
   push:
-    branches: ["**"]         # run on every branch
+    branches: ["**"]          # run on every branch
   pull_request:
   workflow_dispatch:
 
@@ -25,14 +25,11 @@ jobs:
       - run: npm ci
       - run: npm run lint
 
-      # Debug: print scripts so we know what this ref actually has
-      - run: node -e "console.log(require('./package.json').scripts)"
-
-      # Vitest (must exist in package.json as: test:ci)
+      # Vitest: use project config explicitly
       - run: npm run test:ci
 
-      # Install Playwright browsers
-      - uses: microsoft/playwright-github-action@v1
+      # Playwright: install browsers + system deps (recommended path)
+      - run: npx playwright install --with-deps
 
       # E2E
       - run: npm run e2e -- --reporter=list
