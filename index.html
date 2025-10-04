@@ -51,6 +51,59 @@
         };
       })();
     </script>
+    
+<!-- PokeAPI 404 fixer: resolve species -> default variety -> pokemon form -->
+<script>
+(() => {
+  const origFetch = window.fetch.bind(window);
+  const speciesDefaultCache = new Map();
+
+  async function resolveDefaultPokemonName(speciesSlug) {
+    const key = speciesSlug.toLowerCase().trim();
+    if (speciesDefaultCache.has(key)) return speciesDefaultCache.get(key);
+
+    const specUrl = `https://pokeapi.co/api/v2/pokemon-species/${encodeURIComponent(key)}/`;
+    const specRes = await origFetch(specUrl);
+    if (!specRes.ok) throw new Error(`Species lookup failed: ${key} (${specRes.status})`);
+
+    const spec = await specRes.json();
+    const defVar = (spec.varieties || []).find(v => v.is_default) || (spec.varieties || [])[0];
+    const defName = defVar && defVar.pokemon && defVar.pokemon.name;
+    if (!defName) throw new Error(`No default variety for species: ${key}`);
+    speciesDefaultCache.set(key, defName);
+    return defName;
+  }
+
+  window.fetch = async function (input, init) {
+    try {
+      const req = input instanceof Request ? input : new Request(input, init);
+      const url = new URL(req.url, location.origin);
+
+      // Only intercept PokeAPI pokemon/ calls
+      const matchesPoke =
+        /(^|\.)pokeapi\.co$/i.test(url.hostname) &&
+        /^\/api\/v2\/pokemon\/([^/]+)\/?$/i.test(url.pathname);
+
+      if (!matchesPoke) {
+        return origFetch(req);
+      }
+
+      // Try original request first
+      let res = await origFetch(req);
+      if (res.status !== 404) return res;
+
+      // On 404: resolve species -> default variety -> retry pokemon/<variety>
+      const slug = decodeURIComponent(url.pathname.split('/').pop() || '').toLowerCase();
+      const defName = await resolveDefaultPokemonName(slug);
+      const fixed = new URL(`/api/v2/pokemon/${encodeURIComponent(defName)}/`, `${url.protocol}//${url.host}`).toString();
+      return origFetch(fixed, init);
+    } catch (e) {
+      // If anything goes wrong, fall back to the original fetch
+      return origFetch(input, init);
+    }
+  };
+})();
+</script>
 
     <!-- Vite entry (source) -->
     <script type="module" src="/src/main.tsx"></script>
