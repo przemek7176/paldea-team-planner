@@ -1157,7 +1157,12 @@ return (<>
           <select className="w-full md:flex-1 border rounded-xl px-3 py-2" value={encIdx} onChange={e=>setEncIdx(parseInt(e.target.value))}>
             {groupEnc.map((e,i)=><option key={e.name} value={i}>{e.name}</option>)}
           </select>
-          <button type="button" className="px-3 py-2 rounded-xl border" disabled={busy} onClick={() => { if (!busy) runSuggest(activeEnc.roster,setEncResult); }} disabled={busy}>{busy?"Computing...":"Suggest team + moves"}</button>
+          <button type="button"className="px-3 py-2 rounded-xl border"
+  disabled={busy}
+  onClick={() => { if (!busy) runSuggest(activeEnc.roster, setEncResult); }}
+>
+  {busy ? "Computing..." : "Suggest team + moves"}
+</button>
           {encResult.team.length ? <button type="button" className="px-3 py-2 rounded-xl border" onClick={()=>setLineupIds(encResult.team.map(m=>m.id))}>Apply to lineup</button> : null}
         </div>
         {!encResult.team.length ? <div className="text-sm text-gray-500">No result yet.</div> :
@@ -1196,7 +1201,22 @@ return (<>
               <input type="number" className="w-20 border rounded-xl px-2 py-1" value={lvlMax} onChange={e=>setLvlMax(parseInt(e.target.value||0))} />
             </div>
           )}
-          <button type="button" className="px-3 py-2 rounded-xl border" disabled={busy} onClick={() => { if ( !busy ){ const roster= owMode==="By Area" ? syntheticTargetByLevel(...(AREA_LEVELS[owRegion][owSub]||[15,25])) : syntheticTargetByLevel(lvlMin,lvlMax); runSuggest(roster,setOwResult); } }} disabled={busy}>{busy?"Computing...":"Suggest team + moves"}</button>
+          <button
+  type="button"
+  className="px-3 py-2 rounded-xl border"
+  disabled={busy}
+  onClick={() => {
+    if (!busy) {
+      const roster =
+        owMode === "By Area"
+          ? syntheticTargetByLevel(...(AREA_LEVELS[owRegion][owSub] || [15, 25]))
+          : syntheticTargetByLevel(lvlMin, lvlMax);
+      runSuggest(roster, setOwResult);
+    }
+  }}
+>
+  {busy ? "Computing..." : "Suggest team + moves"}
+</button>
           {owResult.team.length ? <button type="button" className="px-3 py-2 rounded-xl border" onClick={()=>setLineupIds(owResult.team.map(m=>m.id))}>Apply to lineup</button> : null}
         </div>
         {!owResult.team.length ? <div className="text-sm text-gray-500">No result yet.</div> :
