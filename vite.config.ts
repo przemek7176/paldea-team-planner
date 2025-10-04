@@ -1,18 +1,21 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import singlefile from 'vite-plugin-singlefile';
+import { viteSingleFile } from 'vite-plugin-singlefile';
 
 export default defineConfig(({ mode }) => {
-  // single-file when: --mode single OR env SINGLE_FILE=1
+  // Single-file when: --mode single OR env SINGLE_FILE=1
   const isSingle = mode === 'single' || process.env.SINGLE_FILE === '1';
 
+  const plugins = [react()];
+  if (isSingle) plugins.push(viteSingleFile());
+
   return {
-    // For GitHub Pages (multi-file) use the repo subpath as base.
-    // Single-file build has everything in index.html, so base can be empty.
+    // Multi-file build (Pages) needs repo subpath; single-file doesn't.
     base: isSingle ? '' : '/paldea-team-planner/',
-    plugins: [react(), ...(isSingle ? [singlefile()] : [])],
+    plugins,
     build: isSingle
       ? {
+          // Inline everything into dist/index.html
           assetsInlineLimit: 100_000_000,
           cssCodeSplit: false,
           rollupOptions: {
