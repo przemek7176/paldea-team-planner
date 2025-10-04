@@ -2,13 +2,18 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    include: [
-      'src/**/*.test.{ts,tsx}',
-      'src/**/*.spec.{ts,tsx}',
-      'tests/**/*.test.{ts,tsx}',
-      'tests/**/*.spec.{ts,tsx}',
+    // Only run unit tests from src/**
+    include: ['src/**/*.test.{ts,tsx}', 'src/**/*.spec.{ts,tsx}'],
+    // Do NOT pick up Playwright specs
+    exclude: [
+      'node_modules',
+      'dist',
+      '.idea',
+      '.git',
+      '.cache',
+      'cypress',
+      'tests/**', // <— keep Playwright in its own runner
     ],
-    exclude: ['node_modules', 'dist', '.idea', '.git', '.cache', 'cypress'],
     environment: 'node',
   },
 });
