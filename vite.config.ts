@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
   if (isSingle) plugins.push(viteSingleFile());
 
   return {
-    // Multi-file build (Pages) needs repo subpath; single-file doesn't.
+    // Multi-file (Pages) needs the repo subpath; single-file doesn’t.
     base: isSingle ? '' : '/paldea-team-planner/',
     plugins,
     build: isSingle
