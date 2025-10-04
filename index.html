@@ -2,12 +2,57 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- Use a relative path so it works under the Pages subpath -->
+    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>paldea-team-planner</title>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- DevKit: Fatal overlay + self-test, gated behind ?dev=1 -->
+    <script>
+      (function () {
+        if (new URLSearchParams(location.search).get('dev') !== '1') return;
+
+        const show = (title, msg, stack) => {
+          const el = document.createElement('div');
+          el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);color:#fff;font:14px ui-monospace,Menlo,Consolas;z-index:999999;padding:24px;overflow:auto';
+          el.innerHTML = `<div style="max-width:1000px;margin:0 auto">
+            <h2 style="margin:0 0 8px;font-size:18px">💥 ${title}</h2>
+            <pre style="white-space:pre-wrap;margin:0 0 8px">${msg}</pre>
+            <pre style="white-space:pre-wrap;opacity:.8">${stack || ''}</pre>
+            <button id="fatal-close" style="margin-top:12px">Dismiss</button></div>`;
+          document.body.appendChild(el);
+          document.getElementById('fatal-close').onclick = () => el.remove();
+          console.error('[FATAL]', title, msg, stack);
+        };
+
+        window.addEventListener('error', (e) => show('Unhandled Error', String(e.message || e.error), e.error?.stack));
+        window.addEventListener('unhandledrejection', (e) => {
+          const r = e.reason || {};
+          show('Unhandled Promise Rejection', String(r.message || r || 'Unknown'), r.stack);
+        });
+
+        // Tiny self-test panel
+        const panel = document.createElement('div');
+        panel.style.cssText = 'position:fixed;right:8px;bottom:8px;z-index:999999;background:#111;color:#fff;padding:8px 10px;border-radius:8px;font:12px ui-monospace,Menlo,Consolas';
+        panel.innerHTML = '<button id="run-st">Self-Test</button> <button id="clr">Clear cache</button>';
+        document.body.appendChild(panel);
+        document.getElementById('clr').onclick = () => { localStorage.clear(); location.reload(); };
+        document.getElementById('run-st').onclick = () => {
+          const keys = ['ownedMoves','ownedMonIds','monMoves','monLevels'];
+          const bad = keys.filter(k => { try { const v = localStorage.getItem(k); return v && !JSON.parse(v); } catch { return true; }});
+          console.table([
+            { name: 'Root node exists', ok: !!document.getElementById('root') },
+            { name: 'localStorage JSON valid', ok: bad.length === 0, note: bad.join(',') }
+          ]);
+          alert('Self-Test done. See console.');
+        };
+      })();
+    </script>
+
+    <!-- Vite entry (source) -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

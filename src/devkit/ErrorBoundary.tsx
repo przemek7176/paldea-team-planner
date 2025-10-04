@@ -1,59 +1,61 @@
-import React, { ReactNode } from 'react';
+import React from 'react'
 
-type ErrorBoundaryProps = {
-  children: ReactNode;
-  /** When true (e.g., ?dev=1), show detailed diagnostics. */
-  dev?: boolean;
-  /** Optional custom fallback node. */
-  fallback?: React.ReactNode;
-};
+type Props = {
+  children: React.ReactNode
+  /** When true (e.g., ?dev=1), render detailed diagnostics. */
+  dev?: boolean
+  /** Optional custom fallback node (used when dev !== true). */
+  fallback?: React.ReactNode
+}
 
-type ErrorBoundaryState = {
-  hasError: boolean;
-  error?: Error;
-  info?: React.ErrorInfo;
-};
+type State = {
+  hasError: boolean
+  error?: Error
+  info?: React.ErrorInfo
+}
 
-export default class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
-  state: ErrorBoundaryState = { hasError: false };
+export default class ErrorBoundary extends React.Component<Props, State> {
+  state: State = { hasError: false }
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, error };
+  static getDerivedStateFromError(error: Error): Partial<State> {
+    return { hasError: true, error }
   }
 
-  componentDidCatch(error: Error, info: React.ErrorInfo): void {
-    if (this.props.dev) {
-      console.error('[ErrorBoundary]', error, info);
-    }
-    this.setState({ info });
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    this.setState({ error, info })
+    // You can add logging here if desired
+    // console.error('App crashed:', error, info)
   }
 
-  render(): React.ReactNode {
-    if (this.state.hasError) {
-      if (this.props.fallback) return this.props.fallback;
+  render() {
+    const { hasError, error, info } = this.state
+    const { dev, fallback } = this.props
 
-      if (this.props.dev) {
-        return (
-          <div className="p-4 rounded border border-red-200 bg-red-50 text-red-700">
-            <div className="font-semibold">Something went wrong.</div>
-            <pre className="text-xs mt-2 whitespace-pre-wrap">
-              {this.state.error?.message}
-              {'\n'}
-              {this.state.info?.componentStack}
-            </pre>
-          </div>
-        );
-      }
+    if (!hasError) return this.props.children
 
+    if (dev) {
       return (
+        <div style={{ padding: 16, fontFamily: 'ui-monospace, Menlo, Consolas' }}>
+          <h2>💥 App crashed</h2>
+          <p>{String(error?.message || error)}</p>
+          <pre style={{ whiteSpace: 'pre-wrap', opacity: 0.8 }}>{error?.stack || ''}</pre>
+          {info?.componentStack && (
+            <>
+              <h3>Component stack</h3>
+              <pre style={{ whiteSpace: 'pre-wrap', opacity: 0.8 }}>{info.componentStack}</pre>
+            </>
+          )}
+          <button onClick={() => location.reload()}>Reload</button>
+        </div>
+      )
+    }
+
+    return (
+      fallback ?? (
         <div role="alert" className="p-4 rounded border bg-red-50 text-red-700">
           Something went wrong. Please reload the page.
         </div>
-      );
-    }
-    return this.props.children;
+      )
+    )
   }
 }
