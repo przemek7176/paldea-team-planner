@@ -1104,38 +1104,46 @@ function SuggestionsTab(){
     
     const inFlight = React.useRef<Promise<void> | null>(null);
 
-    async function runSuggest(roster: any[], setter: (x: any) => void) {
-      if (busy || inFlight.current) return; // guard double-clicks / re-entries
-      setBusy(true);
-      const job = (async () => {
+    async function runSuggest(roster: any[], setter: (x: any {
+  if (inFlight.current) return; // guard multiple concurrent runs
+  setBusy(true);
+
+  // Keep the last good result visible while recomputing (prevents flicker)
+  const prev = setter === setEncResult ? encResult : owResult;
+
+  const job = (async () => {
+    try {
+      if (!owned.length) {
+        setter(prev); // avoid blanking the UI
+        return;
+      }
+
+      const { team, why } = await suggestTeam(owned, roster);
+      const movesets = {};
+      for (const mon of team) {
         try {
-          if (!owned.length) {
-            setter({ team: [], why: [], moves: {} });
-            return;
-          }
-          const { team, why } = await suggestTeam(owned, roster);
-          const movesets: Record<string, any[]> = {};
-          for (const mon of team) {
-            try {
-              const learnset = await getAllMovesForPokemon(mon);
-              movesets[mon.id] = pickMovesFor(mon, learnset, roster);
-            } catch (e) {
-              console.warn('moveset failed for', mon?.name, e);
-              movesets[mon.id] = [];
-            }
-          }
-          setter({ team, why, moves: movesets });
+          const learnset = await getAllMovesForPokemon(mon);
+          movesets[mon.id] = pickMovesFor(mon, learnset, roster);
         } catch (e) {
-          console.error('Suggest failed', e);
-          setter({ team: [], why: [], moves: {}, error: String(e) });
-        } finally {
-          setBusy(false);
-          inFlight.current = null;
+          console.warn('moveset failed for', mon?.name, e);
+          movesets[mon.id] = (prev?.moves && prev.moves[mon.id]) || [];
         }
-      })();
-      inFlight.current = job;
-      await job;
+      }
+      setter({ team, why, moves: movesets });
+    } catch (e) {
+      console.error('Suggest failed', e);
+      setter({ ...prev, error: String(e) });
+    } finally {
+      inFlight.current = null;
+      // Small debounce so the UI doesn’t blink when busy flips
+      setTimeout(() => setBusy(false), 200);
     }
+  })();
+
+  inFlight.current = job;
+  await job;
+}
+
 return (<>
       <Section title="Style" subtitle="Coverage only counts for viable Pokémon (above threshold).">
         <div className="flex flex-wrap items-center gap-3">
