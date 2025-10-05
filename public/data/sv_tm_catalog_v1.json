@@ -1,0 +1,3215 @@
+{
+  "version": "sv_tm_catalog_v1",
+  "source": "pokeapi.co",
+  "version_group": "scarlet-violet",
+  "generatedAt": "2025-10-05T13:11:08.827Z",
+  "count": 229,
+  "tms": [
+    {
+      "machine_id": 1,
+      "item": "tm01",
+      "tm_number": 1,
+      "move": {
+        "name": "take-down",
+        "id": 36,
+        "type": "normal",
+        "damage_class": "physical",
+        "power": 90,
+        "accuracy": 85,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 2,
+      "item": "tm02",
+      "tm_number": 2,
+      "move": {
+        "name": "charm",
+        "id": 204,
+        "type": "fairy",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 3,
+      "item": "tm03",
+      "tm_number": 3,
+      "move": {
+        "name": "fake-tears",
+        "id": 313,
+        "type": "dark",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 4,
+      "item": "tm04",
+      "tm_number": 4,
+      "move": {
+        "name": "agility",
+        "id": 97,
+        "type": "psychic",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 30
+      }
+    },
+    {
+      "machine_id": 5,
+      "item": "tm05",
+      "tm_number": 5,
+      "move": {
+        "name": "mud-slap",
+        "id": 189,
+        "type": "ground",
+        "damage_class": "special",
+        "power": 20,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 6,
+      "item": "tm06",
+      "tm_number": 6,
+      "move": {
+        "name": "scary-face",
+        "id": 184,
+        "type": "normal",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 7,
+      "item": "tm07",
+      "tm_number": 7,
+      "move": {
+        "name": "protect",
+        "id": 182,
+        "type": "normal",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 8,
+      "item": "tm08",
+      "tm_number": 8,
+      "move": {
+        "name": "fire-fang",
+        "id": 424,
+        "type": "fire",
+        "damage_class": "physical",
+        "power": 65,
+        "accuracy": 95,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 9,
+      "item": "tm09",
+      "tm_number": 9,
+      "move": {
+        "name": "thunder-fang",
+        "id": 422,
+        "type": "electric",
+        "damage_class": "physical",
+        "power": 65,
+        "accuracy": 95,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 10,
+      "item": "tm10",
+      "tm_number": 10,
+      "move": {
+        "name": "ice-fang",
+        "id": 423,
+        "type": "ice",
+        "damage_class": "physical",
+        "power": 65,
+        "accuracy": 95,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 11,
+      "item": "tm11",
+      "tm_number": 11,
+      "move": {
+        "name": "water-pulse",
+        "id": 352,
+        "type": "water",
+        "damage_class": "special",
+        "power": 60,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 12,
+      "item": "tm12",
+      "tm_number": 12,
+      "move": {
+        "name": "low-kick",
+        "id": 67,
+        "type": "fighting",
+        "damage_class": "physical",
+        "power": null,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 13,
+      "item": "tm13",
+      "tm_number": 13,
+      "move": {
+        "name": "acid-spray",
+        "id": 491,
+        "type": "poison",
+        "damage_class": "special",
+        "power": 40,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 14,
+      "item": "tm14",
+      "tm_number": 14,
+      "move": {
+        "name": "acrobatics",
+        "id": 512,
+        "type": "flying",
+        "damage_class": "physical",
+        "power": 55,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 15,
+      "item": "tm15",
+      "tm_number": 15,
+      "move": {
+        "name": "struggle-bug",
+        "id": 522,
+        "type": "bug",
+        "damage_class": "special",
+        "power": 50,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 16,
+      "item": "tm16",
+      "tm_number": 16,
+      "move": {
+        "name": "psybeam",
+        "id": 60,
+        "type": "psychic",
+        "damage_class": "special",
+        "power": 65,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 17,
+      "item": "tm17",
+      "tm_number": 17,
+      "move": {
+        "name": "confuse-ray",
+        "id": 109,
+        "type": "ghost",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 18,
+      "item": "tm18",
+      "tm_number": 18,
+      "move": {
+        "name": "thief",
+        "id": 168,
+        "type": "dark",
+        "damage_class": "physical",
+        "power": 60,
+        "accuracy": 100,
+        "pp": 25
+      }
+    },
+    {
+      "machine_id": 19,
+      "item": "tm19",
+      "tm_number": 19,
+      "move": {
+        "name": "disarming-voice",
+        "id": 574,
+        "type": "fairy",
+        "damage_class": "special",
+        "power": 40,
+        "accuracy": null,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 20,
+      "item": "tm20",
+      "tm_number": 20,
+      "move": {
+        "name": "trailblaze",
+        "id": 885,
+        "type": "grass",
+        "damage_class": "physical",
+        "power": 50,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 21,
+      "item": "tm21",
+      "tm_number": 21,
+      "move": {
+        "name": "pounce",
+        "id": 884,
+        "type": "bug",
+        "damage_class": "physical",
+        "power": 50,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 22,
+      "item": "tm22",
+      "tm_number": 22,
+      "move": {
+        "name": "chilling-water",
+        "id": 886,
+        "type": "water",
+        "damage_class": "special",
+        "power": 50,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 23,
+      "item": "tm23",
+      "tm_number": 23,
+      "move": {
+        "name": "charge-beam",
+        "id": 451,
+        "type": "electric",
+        "damage_class": "special",
+        "power": 50,
+        "accuracy": 90,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 24,
+      "item": "tm24",
+      "tm_number": 24,
+      "move": {
+        "name": "fire-spin",
+        "id": 83,
+        "type": "fire",
+        "damage_class": "special",
+        "power": 35,
+        "accuracy": 85,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 25,
+      "item": "tm25",
+      "tm_number": 25,
+      "move": {
+        "name": "facade",
+        "id": 263,
+        "type": "normal",
+        "damage_class": "physical",
+        "power": 70,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 26,
+      "item": "tm26",
+      "tm_number": 26,
+      "move": {
+        "name": "poison-tail",
+        "id": 342,
+        "type": "poison",
+        "damage_class": "physical",
+        "power": 50,
+        "accuracy": 100,
+        "pp": 25
+      }
+    },
+    {
+      "machine_id": 27,
+      "item": "tm27",
+      "tm_number": 27,
+      "move": {
+        "name": "aerial-ace",
+        "id": 332,
+        "type": "flying",
+        "damage_class": "physical",
+        "power": 60,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 28,
+      "item": "tm28",
+      "tm_number": 28,
+      "move": {
+        "name": "bulldoze",
+        "id": 523,
+        "type": "ground",
+        "damage_class": "physical",
+        "power": 60,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 29,
+      "item": "tm29",
+      "tm_number": 29,
+      "move": {
+        "name": "hex",
+        "id": 506,
+        "type": "ghost",
+        "damage_class": "special",
+        "power": 65,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 30,
+      "item": "tm30",
+      "tm_number": 30,
+      "move": {
+        "name": "snarl",
+        "id": 555,
+        "type": "dark",
+        "damage_class": "special",
+        "power": 55,
+        "accuracy": 95,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 31,
+      "item": "tm31",
+      "tm_number": 31,
+      "move": {
+        "name": "metal-claw",
+        "id": 232,
+        "type": "steel",
+        "damage_class": "physical",
+        "power": 50,
+        "accuracy": 95,
+        "pp": 35
+      }
+    },
+    {
+      "machine_id": 32,
+      "item": "tm32",
+      "tm_number": 32,
+      "move": {
+        "name": "swift",
+        "id": 129,
+        "type": "normal",
+        "damage_class": "special",
+        "power": 60,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 33,
+      "item": "tm33",
+      "tm_number": 33,
+      "move": {
+        "name": "magical-leaf",
+        "id": 345,
+        "type": "grass",
+        "damage_class": "special",
+        "power": 60,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 34,
+      "item": "tm34",
+      "tm_number": 34,
+      "move": {
+        "name": "icy-wind",
+        "id": 196,
+        "type": "ice",
+        "damage_class": "special",
+        "power": 55,
+        "accuracy": 95,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 35,
+      "item": "tm35",
+      "tm_number": 35,
+      "move": {
+        "name": "mud-shot",
+        "id": 341,
+        "type": "ground",
+        "damage_class": "special",
+        "power": 55,
+        "accuracy": 95,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 36,
+      "item": "tm36",
+      "tm_number": 36,
+      "move": {
+        "name": "rock-tomb",
+        "id": 317,
+        "type": "rock",
+        "damage_class": "physical",
+        "power": 60,
+        "accuracy": 95,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 37,
+      "item": "tm37",
+      "tm_number": 37,
+      "move": {
+        "name": "draining-kiss",
+        "id": 577,
+        "type": "fairy",
+        "damage_class": "special",
+        "power": 50,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 38,
+      "item": "tm38",
+      "tm_number": 38,
+      "move": {
+        "name": "flame-charge",
+        "id": 488,
+        "type": "fire",
+        "damage_class": "physical",
+        "power": 50,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 39,
+      "item": "tm39",
+      "tm_number": 39,
+      "move": {
+        "name": "low-sweep",
+        "id": 490,
+        "type": "fighting",
+        "damage_class": "physical",
+        "power": 65,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 40,
+      "item": "tm40",
+      "tm_number": 40,
+      "move": {
+        "name": "air-cutter",
+        "id": 314,
+        "type": "flying",
+        "damage_class": "special",
+        "power": 60,
+        "accuracy": 95,
+        "pp": 25
+      }
+    },
+    {
+      "machine_id": 41,
+      "item": "tm41",
+      "tm_number": 41,
+      "move": {
+        "name": "stored-power",
+        "id": 500,
+        "type": "psychic",
+        "damage_class": "special",
+        "power": 20,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 42,
+      "item": "tm42",
+      "tm_number": 42,
+      "move": {
+        "name": "night-shade",
+        "id": 101,
+        "type": "ghost",
+        "damage_class": "special",
+        "power": null,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 43,
+      "item": "tm43",
+      "tm_number": 43,
+      "move": {
+        "name": "fling",
+        "id": 374,
+        "type": "dark",
+        "damage_class": "physical",
+        "power": null,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 44,
+      "item": "tm44",
+      "tm_number": 44,
+      "move": {
+        "name": "dragon-tail",
+        "id": 525,
+        "type": "dragon",
+        "damage_class": "physical",
+        "power": 60,
+        "accuracy": 90,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 45,
+      "item": "tm45",
+      "tm_number": 45,
+      "move": {
+        "name": "venoshock",
+        "id": 474,
+        "type": "poison",
+        "damage_class": "special",
+        "power": 65,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 46,
+      "item": "tm46",
+      "tm_number": 46,
+      "move": {
+        "name": "avalanche",
+        "id": 419,
+        "type": "ice",
+        "damage_class": "physical",
+        "power": 60,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 47,
+      "item": "tm47",
+      "tm_number": 47,
+      "move": {
+        "name": "endure",
+        "id": 203,
+        "type": "normal",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 48,
+      "item": "tm48",
+      "tm_number": 48,
+      "move": {
+        "name": "volt-switch",
+        "id": 521,
+        "type": "electric",
+        "damage_class": "special",
+        "power": 70,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 49,
+      "item": "tm49",
+      "tm_number": 49,
+      "move": {
+        "name": "sunny-day",
+        "id": 241,
+        "type": "fire",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 50,
+      "item": "tm50",
+      "tm_number": 50,
+      "move": {
+        "name": "rain-dance",
+        "id": 240,
+        "type": "water",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 51,
+      "item": "tm51",
+      "tm_number": 51,
+      "move": {
+        "name": "sandstorm",
+        "id": 201,
+        "type": "rock",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 52,
+      "item": "tm52",
+      "tm_number": 52,
+      "move": {
+        "name": "snowscape",
+        "id": 883,
+        "type": "ice",
+        "damage_class": "status",
+        "power": 0,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 53,
+      "item": "tm53",
+      "tm_number": 53,
+      "move": {
+        "name": "smart-strike",
+        "id": 684,
+        "type": "steel",
+        "damage_class": "physical",
+        "power": 70,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 54,
+      "item": "tm54",
+      "tm_number": 54,
+      "move": {
+        "name": "psyshock",
+        "id": 473,
+        "type": "psychic",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 55,
+      "item": "tm55",
+      "tm_number": 55,
+      "move": {
+        "name": "dig",
+        "id": 91,
+        "type": "ground",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 56,
+      "item": "tm56",
+      "tm_number": 56,
+      "move": {
+        "name": "bullet-seed",
+        "id": 331,
+        "type": "grass",
+        "damage_class": "physical",
+        "power": 25,
+        "accuracy": 100,
+        "pp": 30
+      }
+    },
+    {
+      "machine_id": 57,
+      "item": "tm57",
+      "tm_number": 57,
+      "move": {
+        "name": "false-swipe",
+        "id": 206,
+        "type": "normal",
+        "damage_class": "physical",
+        "power": 40,
+        "accuracy": 100,
+        "pp": 40
+      }
+    },
+    {
+      "machine_id": 58,
+      "item": "tm58",
+      "tm_number": 58,
+      "move": {
+        "name": "brick-break",
+        "id": 280,
+        "type": "fighting",
+        "damage_class": "physical",
+        "power": 75,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 59,
+      "item": "tm59",
+      "tm_number": 59,
+      "move": {
+        "name": "zen-headbutt",
+        "id": 428,
+        "type": "psychic",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 90,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 60,
+      "item": "tm60",
+      "tm_number": 60,
+      "move": {
+        "name": "u-turn",
+        "id": 369,
+        "type": "bug",
+        "damage_class": "physical",
+        "power": 70,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 61,
+      "item": "tm61",
+      "tm_number": 61,
+      "move": {
+        "name": "shadow-claw",
+        "id": 421,
+        "type": "ghost",
+        "damage_class": "physical",
+        "power": 70,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 62,
+      "item": "tm62",
+      "tm_number": 62,
+      "move": {
+        "name": "foul-play",
+        "id": 492,
+        "type": "dark",
+        "damage_class": "physical",
+        "power": 95,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 63,
+      "item": "tm63",
+      "tm_number": 63,
+      "move": {
+        "name": "psychic-fangs",
+        "id": 706,
+        "type": "psychic",
+        "damage_class": "physical",
+        "power": 85,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 64,
+      "item": "tm64",
+      "tm_number": 64,
+      "move": {
+        "name": "bulk-up",
+        "id": 339,
+        "type": "fighting",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 65,
+      "item": "tm65",
+      "tm_number": 65,
+      "move": {
+        "name": "air-slash",
+        "id": 403,
+        "type": "flying",
+        "damage_class": "special",
+        "power": 75,
+        "accuracy": 95,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 66,
+      "item": "tm66",
+      "tm_number": 66,
+      "move": {
+        "name": "body-slam",
+        "id": 34,
+        "type": "normal",
+        "damage_class": "physical",
+        "power": 85,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 67,
+      "item": "tm67",
+      "tm_number": 67,
+      "move": {
+        "name": "fire-punch",
+        "id": 7,
+        "type": "fire",
+        "damage_class": "physical",
+        "power": 75,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 68,
+      "item": "tm68",
+      "tm_number": 68,
+      "move": {
+        "name": "thunder-punch",
+        "id": 9,
+        "type": "electric",
+        "damage_class": "physical",
+        "power": 75,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 69,
+      "item": "tm69",
+      "tm_number": 69,
+      "move": {
+        "name": "ice-punch",
+        "id": 8,
+        "type": "ice",
+        "damage_class": "physical",
+        "power": 75,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 70,
+      "item": "tm70",
+      "tm_number": 70,
+      "move": {
+        "name": "sleep-talk",
+        "id": 214,
+        "type": "normal",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 71,
+      "item": "tm71",
+      "tm_number": 71,
+      "move": {
+        "name": "seed-bomb",
+        "id": 402,
+        "type": "grass",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 72,
+      "item": "tm72",
+      "tm_number": 72,
+      "move": {
+        "name": "electro-ball",
+        "id": 486,
+        "type": "electric",
+        "damage_class": "special",
+        "power": null,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 73,
+      "item": "tm73",
+      "tm_number": 73,
+      "move": {
+        "name": "drain-punch",
+        "id": 409,
+        "type": "fighting",
+        "damage_class": "physical",
+        "power": 75,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 74,
+      "item": "tm74",
+      "tm_number": 74,
+      "move": {
+        "name": "reflect",
+        "id": 115,
+        "type": "psychic",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 75,
+      "item": "tm75",
+      "tm_number": 75,
+      "move": {
+        "name": "light-screen",
+        "id": 113,
+        "type": "psychic",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 30
+      }
+    },
+    {
+      "machine_id": 76,
+      "item": "tm76",
+      "tm_number": 76,
+      "move": {
+        "name": "rock-blast",
+        "id": 350,
+        "type": "rock",
+        "damage_class": "physical",
+        "power": 25,
+        "accuracy": 90,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 77,
+      "item": "tm77",
+      "tm_number": 77,
+      "move": {
+        "name": "waterfall",
+        "id": 127,
+        "type": "water",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 78,
+      "item": "tm78",
+      "tm_number": 78,
+      "move": {
+        "name": "dragon-claw",
+        "id": 337,
+        "type": "dragon",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 79,
+      "item": "tm79",
+      "tm_number": 79,
+      "move": {
+        "name": "dazzling-gleam",
+        "id": 605,
+        "type": "fairy",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 80,
+      "item": "tm80",
+      "tm_number": 80,
+      "move": {
+        "name": "metronome",
+        "id": 118,
+        "type": "normal",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 81,
+      "item": "tm81",
+      "tm_number": 81,
+      "move": {
+        "name": "grass-knot",
+        "id": 447,
+        "type": "grass",
+        "damage_class": "special",
+        "power": null,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 82,
+      "item": "tm82",
+      "tm_number": 82,
+      "move": {
+        "name": "thunder-wave",
+        "id": 86,
+        "type": "electric",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 90,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 83,
+      "item": "tm83",
+      "tm_number": 83,
+      "move": {
+        "name": "poison-jab",
+        "id": 398,
+        "type": "poison",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 84,
+      "item": "tm84",
+      "tm_number": 84,
+      "move": {
+        "name": "stomping-tantrum",
+        "id": 707,
+        "type": "ground",
+        "damage_class": "physical",
+        "power": 75,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 85,
+      "item": "tm85",
+      "tm_number": 85,
+      "move": {
+        "name": "rest",
+        "id": 156,
+        "type": "psychic",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 86,
+      "item": "tm86",
+      "tm_number": 86,
+      "move": {
+        "name": "rock-slide",
+        "id": 157,
+        "type": "rock",
+        "damage_class": "physical",
+        "power": 75,
+        "accuracy": 90,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 87,
+      "item": "tm87",
+      "tm_number": 87,
+      "move": {
+        "name": "taunt",
+        "id": 269,
+        "type": "dark",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 88,
+      "item": "tm88",
+      "tm_number": 88,
+      "move": {
+        "name": "swords-dance",
+        "id": 14,
+        "type": "normal",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 89,
+      "item": "tm89",
+      "tm_number": 89,
+      "move": {
+        "name": "body-press",
+        "id": 776,
+        "type": "fighting",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 90,
+      "item": "tm90",
+      "tm_number": 90,
+      "move": {
+        "name": "spikes",
+        "id": 191,
+        "type": "ground",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 91,
+      "item": "tm91",
+      "tm_number": 91,
+      "move": {
+        "name": "toxic-spikes",
+        "id": 390,
+        "type": "poison",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 92,
+      "item": "tm92",
+      "tm_number": 92,
+      "move": {
+        "name": "imprison",
+        "id": 286,
+        "type": "psychic",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 93,
+      "item": "tm93",
+      "tm_number": 93,
+      "move": {
+        "name": "flash-cannon",
+        "id": 430,
+        "type": "steel",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 94,
+      "item": "tm94",
+      "tm_number": 94,
+      "move": {
+        "name": "dark-pulse",
+        "id": 399,
+        "type": "dark",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 95,
+      "item": "tm95",
+      "tm_number": 95,
+      "move": {
+        "name": "leech-life",
+        "id": 141,
+        "type": "bug",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 96,
+      "item": "tm96",
+      "tm_number": 96,
+      "move": {
+        "name": "eerie-impulse",
+        "id": 598,
+        "type": "electric",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 97,
+      "item": "tm97",
+      "tm_number": 97,
+      "move": {
+        "name": "fly",
+        "id": 19,
+        "type": "flying",
+        "damage_class": "physical",
+        "power": 90,
+        "accuracy": 95,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 98,
+      "item": "tm98",
+      "tm_number": 98,
+      "move": {
+        "name": "skill-swap",
+        "id": 285,
+        "type": "psychic",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 99,
+      "item": "tm99",
+      "tm_number": 99,
+      "move": {
+        "name": "iron-head",
+        "id": 442,
+        "type": "steel",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 100,
+      "item": "tm100",
+      "tm_number": 100,
+      "move": {
+        "name": "dragon-dance",
+        "id": 349,
+        "type": "dragon",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 101,
+      "item": "tm101",
+      "tm_number": 101,
+      "move": {
+        "name": "power-gem",
+        "id": 408,
+        "type": "rock",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 102,
+      "item": "tm102",
+      "tm_number": 102,
+      "move": {
+        "name": "gunk-shot",
+        "id": 441,
+        "type": "poison",
+        "damage_class": "physical",
+        "power": 120,
+        "accuracy": 80,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 103,
+      "item": "tm103",
+      "tm_number": 103,
+      "move": {
+        "name": "substitute",
+        "id": 164,
+        "type": "normal",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 104,
+      "item": "tm104",
+      "tm_number": 104,
+      "move": {
+        "name": "iron-defense",
+        "id": 334,
+        "type": "steel",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 105,
+      "item": "tm105",
+      "tm_number": 105,
+      "move": {
+        "name": "x-scissor",
+        "id": 404,
+        "type": "bug",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 106,
+      "item": "tm106",
+      "tm_number": 106,
+      "move": {
+        "name": "drill-run",
+        "id": 529,
+        "type": "ground",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 95,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 107,
+      "item": "tm107",
+      "tm_number": 107,
+      "move": {
+        "name": "will-o-wisp",
+        "id": 261,
+        "type": "fire",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 85,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 108,
+      "item": "tm108",
+      "tm_number": 108,
+      "move": {
+        "name": "crunch",
+        "id": 242,
+        "type": "dark",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 109,
+      "item": "tm109",
+      "tm_number": 109,
+      "move": {
+        "name": "trick",
+        "id": 271,
+        "type": "psychic",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 110,
+      "item": "tm110",
+      "tm_number": 110,
+      "move": {
+        "name": "liquidation",
+        "id": 710,
+        "type": "water",
+        "damage_class": "physical",
+        "power": 85,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 111,
+      "item": "tm111",
+      "tm_number": 111,
+      "move": {
+        "name": "giga-drain",
+        "id": 202,
+        "type": "grass",
+        "damage_class": "special",
+        "power": 75,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 112,
+      "item": "tm112",
+      "tm_number": 112,
+      "move": {
+        "name": "aura-sphere",
+        "id": 396,
+        "type": "fighting",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 113,
+      "item": "tm113",
+      "tm_number": 113,
+      "move": {
+        "name": "tailwind",
+        "id": 366,
+        "type": "flying",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 114,
+      "item": "tm114",
+      "tm_number": 114,
+      "move": {
+        "name": "shadow-ball",
+        "id": 247,
+        "type": "ghost",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 115,
+      "item": "tm115",
+      "tm_number": 115,
+      "move": {
+        "name": "dragon-pulse",
+        "id": 406,
+        "type": "dragon",
+        "damage_class": "special",
+        "power": 85,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 116,
+      "item": "tm116",
+      "tm_number": 116,
+      "move": {
+        "name": "stealth-rock",
+        "id": 446,
+        "type": "rock",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 117,
+      "item": "tm117",
+      "tm_number": 117,
+      "move": {
+        "name": "hyper-voice",
+        "id": 304,
+        "type": "normal",
+        "damage_class": "special",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 118,
+      "item": "tm118",
+      "tm_number": 118,
+      "move": {
+        "name": "heat-wave",
+        "id": 257,
+        "type": "fire",
+        "damage_class": "special",
+        "power": 95,
+        "accuracy": 90,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 119,
+      "item": "tm119",
+      "tm_number": 119,
+      "move": {
+        "name": "energy-ball",
+        "id": 412,
+        "type": "grass",
+        "damage_class": "special",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 120,
+      "item": "tm120",
+      "tm_number": 120,
+      "move": {
+        "name": "psychic",
+        "id": 94,
+        "type": "psychic",
+        "damage_class": "special",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 121,
+      "item": "tm121",
+      "tm_number": 121,
+      "move": {
+        "name": "heavy-slam",
+        "id": 484,
+        "type": "steel",
+        "damage_class": "physical",
+        "power": null,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 122,
+      "item": "tm122",
+      "tm_number": 122,
+      "move": {
+        "name": "encore",
+        "id": 227,
+        "type": "normal",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 100,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 123,
+      "item": "tm123",
+      "tm_number": 123,
+      "move": {
+        "name": "surf",
+        "id": 57,
+        "type": "water",
+        "damage_class": "special",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 124,
+      "item": "tm124",
+      "tm_number": 124,
+      "move": {
+        "name": "ice-spinner",
+        "id": 861,
+        "type": "ice",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 125,
+      "item": "tm125",
+      "tm_number": 125,
+      "move": {
+        "name": "flamethrower",
+        "id": 53,
+        "type": "fire",
+        "damage_class": "special",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 126,
+      "item": "tm126",
+      "tm_number": 126,
+      "move": {
+        "name": "thunderbolt",
+        "id": 85,
+        "type": "electric",
+        "damage_class": "special",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 127,
+      "item": "tm127",
+      "tm_number": 127,
+      "move": {
+        "name": "play-rough",
+        "id": 583,
+        "type": "fairy",
+        "damage_class": "physical",
+        "power": 90,
+        "accuracy": 90,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 128,
+      "item": "tm128",
+      "tm_number": 128,
+      "move": {
+        "name": "amnesia",
+        "id": 133,
+        "type": "psychic",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 129,
+      "item": "tm129",
+      "tm_number": 129,
+      "move": {
+        "name": "calm-mind",
+        "id": 347,
+        "type": "psychic",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 130,
+      "item": "tm130",
+      "tm_number": 130,
+      "move": {
+        "name": "helping-hand",
+        "id": 270,
+        "type": "normal",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 131,
+      "item": "tm131",
+      "tm_number": 131,
+      "move": {
+        "name": "pollen-puff",
+        "id": 676,
+        "type": "bug",
+        "damage_class": "special",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 132,
+      "item": "tm132",
+      "tm_number": 132,
+      "move": {
+        "name": "baton-pass",
+        "id": 226,
+        "type": "normal",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 40
+      }
+    },
+    {
+      "machine_id": 133,
+      "item": "tm133",
+      "tm_number": 133,
+      "move": {
+        "name": "earth-power",
+        "id": 414,
+        "type": "ground",
+        "damage_class": "special",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 134,
+      "item": "tm134",
+      "tm_number": 134,
+      "move": {
+        "name": "reversal",
+        "id": 179,
+        "type": "fighting",
+        "damage_class": "physical",
+        "power": null,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 135,
+      "item": "tm135",
+      "tm_number": 135,
+      "move": {
+        "name": "ice-beam",
+        "id": 58,
+        "type": "ice",
+        "damage_class": "special",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 136,
+      "item": "tm136",
+      "tm_number": 136,
+      "move": {
+        "name": "electric-terrain",
+        "id": 604,
+        "type": "electric",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 137,
+      "item": "tm137",
+      "tm_number": 137,
+      "move": {
+        "name": "grassy-terrain",
+        "id": 580,
+        "type": "grass",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 138,
+      "item": "tm138",
+      "tm_number": 138,
+      "move": {
+        "name": "psychic-terrain",
+        "id": 678,
+        "type": "psychic",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 139,
+      "item": "tm139",
+      "tm_number": 139,
+      "move": {
+        "name": "misty-terrain",
+        "id": 581,
+        "type": "fairy",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 140,
+      "item": "tm140",
+      "tm_number": 140,
+      "move": {
+        "name": "nasty-plot",
+        "id": 417,
+        "type": "dark",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 141,
+      "item": "tm141",
+      "tm_number": 141,
+      "move": {
+        "name": "fire-blast",
+        "id": 126,
+        "type": "fire",
+        "damage_class": "special",
+        "power": 110,
+        "accuracy": 85,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 142,
+      "item": "tm142",
+      "tm_number": 142,
+      "move": {
+        "name": "hydro-pump",
+        "id": 56,
+        "type": "water",
+        "damage_class": "special",
+        "power": 110,
+        "accuracy": 80,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 143,
+      "item": "tm143",
+      "tm_number": 143,
+      "move": {
+        "name": "blizzard",
+        "id": 59,
+        "type": "ice",
+        "damage_class": "special",
+        "power": 110,
+        "accuracy": 70,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 144,
+      "item": "tm144",
+      "tm_number": 144,
+      "move": {
+        "name": "fire-pledge",
+        "id": 519,
+        "type": "fire",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 145,
+      "item": "tm145",
+      "tm_number": 145,
+      "move": {
+        "name": "water-pledge",
+        "id": 518,
+        "type": "water",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 146,
+      "item": "tm146",
+      "tm_number": 146,
+      "move": {
+        "name": "grass-pledge",
+        "id": 520,
+        "type": "grass",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 147,
+      "item": "tm147",
+      "tm_number": 147,
+      "move": {
+        "name": "wild-charge",
+        "id": 528,
+        "type": "electric",
+        "damage_class": "physical",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 148,
+      "item": "tm148",
+      "tm_number": 148,
+      "move": {
+        "name": "sludge-bomb",
+        "id": 188,
+        "type": "poison",
+        "damage_class": "special",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 149,
+      "item": "tm149",
+      "tm_number": 149,
+      "move": {
+        "name": "earthquake",
+        "id": 89,
+        "type": "ground",
+        "damage_class": "physical",
+        "power": 100,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 150,
+      "item": "tm150",
+      "tm_number": 150,
+      "move": {
+        "name": "stone-edge",
+        "id": 444,
+        "type": "rock",
+        "damage_class": "physical",
+        "power": 100,
+        "accuracy": 80,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 151,
+      "item": "tm151",
+      "tm_number": 151,
+      "move": {
+        "name": "phantom-force",
+        "id": 566,
+        "type": "ghost",
+        "damage_class": "physical",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 152,
+      "item": "tm152",
+      "tm_number": 152,
+      "move": {
+        "name": "giga-impact",
+        "id": 416,
+        "type": "normal",
+        "damage_class": "physical",
+        "power": 150,
+        "accuracy": 90,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 153,
+      "item": "tm153",
+      "tm_number": 153,
+      "move": {
+        "name": "blast-burn",
+        "id": 307,
+        "type": "fire",
+        "damage_class": "special",
+        "power": 150,
+        "accuracy": 90,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 154,
+      "item": "tm154",
+      "tm_number": 154,
+      "move": {
+        "name": "hydro-cannon",
+        "id": 308,
+        "type": "water",
+        "damage_class": "special",
+        "power": 150,
+        "accuracy": 90,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 155,
+      "item": "tm155",
+      "tm_number": 155,
+      "move": {
+        "name": "frenzy-plant",
+        "id": 338,
+        "type": "grass",
+        "damage_class": "special",
+        "power": 150,
+        "accuracy": 90,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 156,
+      "item": "tm156",
+      "tm_number": 156,
+      "move": {
+        "name": "outrage",
+        "id": 200,
+        "type": "dragon",
+        "damage_class": "physical",
+        "power": 120,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 157,
+      "item": "tm157",
+      "tm_number": 157,
+      "move": {
+        "name": "overheat",
+        "id": 315,
+        "type": "fire",
+        "damage_class": "special",
+        "power": 130,
+        "accuracy": 90,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 158,
+      "item": "tm158",
+      "tm_number": 158,
+      "move": {
+        "name": "focus-blast",
+        "id": 411,
+        "type": "fighting",
+        "damage_class": "special",
+        "power": 120,
+        "accuracy": 70,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 159,
+      "item": "tm159",
+      "tm_number": 159,
+      "move": {
+        "name": "leaf-storm",
+        "id": 437,
+        "type": "grass",
+        "damage_class": "special",
+        "power": 130,
+        "accuracy": 90,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 160,
+      "item": "tm160",
+      "tm_number": 160,
+      "move": {
+        "name": "hurricane",
+        "id": 542,
+        "type": "flying",
+        "damage_class": "special",
+        "power": 110,
+        "accuracy": 70,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 161,
+      "item": "tm161",
+      "tm_number": 161,
+      "move": {
+        "name": "trick-room",
+        "id": 433,
+        "type": "psychic",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 162,
+      "item": "tm162",
+      "tm_number": 162,
+      "move": {
+        "name": "bug-buzz",
+        "id": 405,
+        "type": "bug",
+        "damage_class": "special",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 163,
+      "item": "tm163",
+      "tm_number": 163,
+      "move": {
+        "name": "hyper-beam",
+        "id": 63,
+        "type": "normal",
+        "damage_class": "special",
+        "power": 150,
+        "accuracy": 90,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 164,
+      "item": "tm164",
+      "tm_number": 164,
+      "move": {
+        "name": "brave-bird",
+        "id": 413,
+        "type": "flying",
+        "damage_class": "physical",
+        "power": 120,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 165,
+      "item": "tm165",
+      "tm_number": 165,
+      "move": {
+        "name": "flare-blitz",
+        "id": 394,
+        "type": "fire",
+        "damage_class": "physical",
+        "power": 120,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 166,
+      "item": "tm166",
+      "tm_number": 166,
+      "move": {
+        "name": "thunder",
+        "id": 87,
+        "type": "electric",
+        "damage_class": "special",
+        "power": 110,
+        "accuracy": 70,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 167,
+      "item": "tm167",
+      "tm_number": 167,
+      "move": {
+        "name": "close-combat",
+        "id": 370,
+        "type": "fighting",
+        "damage_class": "physical",
+        "power": 120,
+        "accuracy": 100,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 168,
+      "item": "tm168",
+      "tm_number": 168,
+      "move": {
+        "name": "solar-beam",
+        "id": 76,
+        "type": "grass",
+        "damage_class": "special",
+        "power": 120,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 169,
+      "item": "tm169",
+      "tm_number": 169,
+      "move": {
+        "name": "draco-meteor",
+        "id": 434,
+        "type": "dragon",
+        "damage_class": "special",
+        "power": 130,
+        "accuracy": 90,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 170,
+      "item": "tm170",
+      "tm_number": 170,
+      "move": {
+        "name": "steel-beam",
+        "id": 796,
+        "type": "steel",
+        "damage_class": "special",
+        "power": 140,
+        "accuracy": 95,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 171,
+      "item": "tm171",
+      "tm_number": 171,
+      "move": {
+        "name": "tera-blast",
+        "id": 851,
+        "type": "normal",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 172,
+      "item": "tm172",
+      "tm_number": 172,
+      "move": {
+        "name": "roar",
+        "id": 46,
+        "type": "normal",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 173,
+      "item": "tm173",
+      "tm_number": 173,
+      "move": {
+        "name": "charge",
+        "id": 268,
+        "type": "electric",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 174,
+      "item": "tm174",
+      "tm_number": 174,
+      "move": {
+        "name": "haze",
+        "id": 114,
+        "type": "ice",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 30
+      }
+    },
+    {
+      "machine_id": 175,
+      "item": "tm175",
+      "tm_number": 175,
+      "move": {
+        "name": "toxic",
+        "id": 92,
+        "type": "poison",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 90,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 176,
+      "item": "tm176",
+      "tm_number": 176,
+      "move": {
+        "name": "sand-tomb",
+        "id": 328,
+        "type": "ground",
+        "damage_class": "physical",
+        "power": 35,
+        "accuracy": 85,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 177,
+      "item": "tm177",
+      "tm_number": 177,
+      "move": {
+        "name": "spite",
+        "id": 180,
+        "type": "ghost",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 178,
+      "item": "tm178",
+      "tm_number": 178,
+      "move": {
+        "name": "gravity",
+        "id": 356,
+        "type": "psychic",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 179,
+      "item": "tm179",
+      "tm_number": 179,
+      "move": {
+        "name": "smack-down",
+        "id": 479,
+        "type": "rock",
+        "damage_class": "physical",
+        "power": 50,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 180,
+      "item": "tm180",
+      "tm_number": 180,
+      "move": {
+        "name": "gyro-ball",
+        "id": 360,
+        "type": "steel",
+        "damage_class": "physical",
+        "power": null,
+        "accuracy": 100,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 181,
+      "item": "tm181",
+      "tm_number": 181,
+      "move": {
+        "name": "knock-off",
+        "id": 282,
+        "type": "dark",
+        "damage_class": "physical",
+        "power": 65,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 182,
+      "item": "tm182",
+      "tm_number": 182,
+      "move": {
+        "name": "bug-bite",
+        "id": 450,
+        "type": "bug",
+        "damage_class": "physical",
+        "power": 60,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 183,
+      "item": "tm183",
+      "tm_number": 183,
+      "move": {
+        "name": "super-fang",
+        "id": 162,
+        "type": "normal",
+        "damage_class": "physical",
+        "power": null,
+        "accuracy": 90,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 184,
+      "item": "tm184",
+      "tm_number": 184,
+      "move": {
+        "name": "vacuum-wave",
+        "id": 410,
+        "type": "fighting",
+        "damage_class": "special",
+        "power": 40,
+        "accuracy": 100,
+        "pp": 30
+      }
+    },
+    {
+      "machine_id": 185,
+      "item": "tm185",
+      "tm_number": 185,
+      "move": {
+        "name": "lunge",
+        "id": 679,
+        "type": "bug",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 186,
+      "item": "tm186",
+      "tm_number": 186,
+      "move": {
+        "name": "high-horsepower",
+        "id": 667,
+        "type": "ground",
+        "damage_class": "physical",
+        "power": 95,
+        "accuracy": 95,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 187,
+      "item": "tm187",
+      "tm_number": 187,
+      "move": {
+        "name": "icicle-spear",
+        "id": 333,
+        "type": "ice",
+        "damage_class": "physical",
+        "power": 25,
+        "accuracy": 100,
+        "pp": 30
+      }
+    },
+    {
+      "machine_id": 188,
+      "item": "tm188",
+      "tm_number": 188,
+      "move": {
+        "name": "scald",
+        "id": 503,
+        "type": "water",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 189,
+      "item": "tm189",
+      "tm_number": 189,
+      "move": {
+        "name": "heat-crash",
+        "id": 535,
+        "type": "fire",
+        "damage_class": "physical",
+        "power": null,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 190,
+      "item": "tm190",
+      "tm_number": 190,
+      "move": {
+        "name": "solar-blade",
+        "id": 669,
+        "type": "grass",
+        "damage_class": "physical",
+        "power": 125,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 191,
+      "item": "tm191",
+      "tm_number": 191,
+      "move": {
+        "name": "uproar",
+        "id": 253,
+        "type": "normal",
+        "damage_class": "special",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 192,
+      "item": "tm192",
+      "tm_number": 192,
+      "move": {
+        "name": "focus-punch",
+        "id": 264,
+        "type": "fighting",
+        "damage_class": "physical",
+        "power": 150,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 193,
+      "item": "tm193",
+      "tm_number": 193,
+      "move": {
+        "name": "weather-ball",
+        "id": 311,
+        "type": "normal",
+        "damage_class": "special",
+        "power": 50,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 194,
+      "item": "tm194",
+      "tm_number": 194,
+      "move": {
+        "name": "grassy-glide",
+        "id": 803,
+        "type": "grass",
+        "damage_class": "physical",
+        "power": 55,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 195,
+      "item": "tm195",
+      "tm_number": 195,
+      "move": {
+        "name": "burning-jealousy",
+        "id": 807,
+        "type": "fire",
+        "damage_class": "special",
+        "power": 70,
+        "accuracy": 100,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 196,
+      "item": "tm196",
+      "tm_number": 196,
+      "move": {
+        "name": "flip-turn",
+        "id": 812,
+        "type": "water",
+        "damage_class": "physical",
+        "power": 60,
+        "accuracy": 100,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 197,
+      "item": "tm197",
+      "tm_number": 197,
+      "move": {
+        "name": "dual-wingbeat",
+        "id": 814,
+        "type": "flying",
+        "damage_class": "physical",
+        "power": 40,
+        "accuracy": 90,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 198,
+      "item": "tm198",
+      "tm_number": 198,
+      "move": {
+        "name": "poltergeist",
+        "id": 809,
+        "type": "ghost",
+        "damage_class": "physical",
+        "power": 110,
+        "accuracy": 90,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 199,
+      "item": "tm199",
+      "tm_number": 199,
+      "move": {
+        "name": "lash-out",
+        "id": 808,
+        "type": "dark",
+        "damage_class": "physical",
+        "power": 75,
+        "accuracy": 100,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 200,
+      "item": "tm200",
+      "tm_number": 200,
+      "move": {
+        "name": "scale-shot",
+        "id": 799,
+        "type": "dragon",
+        "damage_class": "physical",
+        "power": 25,
+        "accuracy": 90,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 201,
+      "item": "tm201",
+      "tm_number": 201,
+      "move": {
+        "name": "misty-explosion",
+        "id": 802,
+        "type": "fairy",
+        "damage_class": "special",
+        "power": 100,
+        "accuracy": 100,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 202,
+      "item": "tm202",
+      "tm_number": 202,
+      "move": {
+        "name": "pain-split",
+        "id": 220,
+        "type": "normal",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 20
+      }
+    },
+    {
+      "machine_id": 203,
+      "item": "tm203",
+      "tm_number": 203,
+      "move": {
+        "name": "psych-up",
+        "id": 244,
+        "type": "normal",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 204,
+      "item": "tm204",
+      "tm_number": 204,
+      "move": {
+        "name": "double-edge",
+        "id": 38,
+        "type": "normal",
+        "damage_class": "physical",
+        "power": 120,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 205,
+      "item": "tm205",
+      "tm_number": 205,
+      "move": {
+        "name": "endeavor",
+        "id": 283,
+        "type": "normal",
+        "damage_class": "physical",
+        "power": null,
+        "accuracy": 100,
+        "pp": 5
+      }
+    },
+    {
+      "machine_id": 206,
+      "item": "tm206",
+      "tm_number": 206,
+      "move": {
+        "name": "petal-blizzard",
+        "id": 572,
+        "type": "grass",
+        "damage_class": "physical",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 207,
+      "item": "tm207",
+      "tm_number": 207,
+      "move": {
+        "name": "temper-flare",
+        "id": 915,
+        "type": "fire",
+        "damage_class": "physical",
+        "power": 75,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 208,
+      "item": "tm208",
+      "tm_number": 208,
+      "move": {
+        "name": "whirlpool",
+        "id": 250,
+        "type": "water",
+        "damage_class": "special",
+        "power": 35,
+        "accuracy": 85,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 209,
+      "item": "tm209",
+      "tm_number": 209,
+      "move": {
+        "name": "muddy-water",
+        "id": 330,
+        "type": "water",
+        "damage_class": "special",
+        "power": 90,
+        "accuracy": 85,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 210,
+      "item": "tm210",
+      "tm_number": 210,
+      "move": {
+        "name": "supercell-slam",
+        "id": 916,
+        "type": "electric",
+        "damage_class": "physical",
+        "power": 100,
+        "accuracy": 95,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 211,
+      "item": "tm211",
+      "tm_number": 211,
+      "move": {
+        "name": "electroweb",
+        "id": 527,
+        "type": "electric",
+        "damage_class": "special",
+        "power": 55,
+        "accuracy": 95,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 212,
+      "item": "tm212",
+      "tm_number": 212,
+      "move": {
+        "name": "triple-axel",
+        "id": 813,
+        "type": "ice",
+        "damage_class": "physical",
+        "power": 20,
+        "accuracy": 90,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 213,
+      "item": "tm213",
+      "tm_number": 213,
+      "move": {
+        "name": "coaching",
+        "id": 811,
+        "type": "fighting",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 214,
+      "item": "tm214",
+      "tm_number": 214,
+      "move": {
+        "name": "sludge-wave",
+        "id": 482,
+        "type": "poison",
+        "damage_class": "special",
+        "power": 95,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 215,
+      "item": "tm215",
+      "tm_number": 215,
+      "move": {
+        "name": "scorching-sands",
+        "id": 815,
+        "type": "ground",
+        "damage_class": "special",
+        "power": 70,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 216,
+      "item": "tm216",
+      "tm_number": 216,
+      "move": {
+        "name": "feather-dance",
+        "id": 297,
+        "type": "flying",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 217,
+      "item": "tm217",
+      "tm_number": 217,
+      "move": {
+        "name": "future-sight",
+        "id": 248,
+        "type": "psychic",
+        "damage_class": "special",
+        "power": 120,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 218,
+      "item": "tm218",
+      "tm_number": 218,
+      "move": {
+        "name": "expanding-force",
+        "id": 797,
+        "type": "psychic",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 219,
+      "item": "tm219",
+      "tm_number": 219,
+      "move": {
+        "name": "skitter-smack",
+        "id": 806,
+        "type": "bug",
+        "damage_class": "physical",
+        "power": 70,
+        "accuracy": 90,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 220,
+      "item": "tm220",
+      "tm_number": 220,
+      "move": {
+        "name": "meteor-beam",
+        "id": 800,
+        "type": "rock",
+        "damage_class": "special",
+        "power": 120,
+        "accuracy": 90,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 221,
+      "item": "tm221",
+      "tm_number": 221,
+      "move": {
+        "name": "throat-chop",
+        "id": 675,
+        "type": "dark",
+        "damage_class": "physical",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 222,
+      "item": "tm222",
+      "tm_number": 222,
+      "move": {
+        "name": "breaking-swipe",
+        "id": 784,
+        "type": "dragon",
+        "damage_class": "physical",
+        "power": 60,
+        "accuracy": 100,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 223,
+      "item": "tm223",
+      "tm_number": 223,
+      "move": {
+        "name": "metal-sound",
+        "id": 319,
+        "type": "steel",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": 85,
+        "pp": 40
+      }
+    },
+    {
+      "machine_id": 224,
+      "item": "tm224",
+      "tm_number": 224,
+      "move": {
+        "name": "curse",
+        "id": 174,
+        "type": "ghost",
+        "damage_class": "status",
+        "power": null,
+        "accuracy": null,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 225,
+      "item": "tm225",
+      "tm_number": 225,
+      "move": {
+        "name": "hard-press",
+        "id": 912,
+        "type": "steel",
+        "damage_class": "physical",
+        "power": 0,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 226,
+      "item": "tm226",
+      "tm_number": 226,
+      "move": {
+        "name": "dragon-cheer",
+        "id": 913,
+        "type": "dragon",
+        "damage_class": "status",
+        "power": 0,
+        "accuracy": 0,
+        "pp": 15
+      }
+    },
+    {
+      "machine_id": 227,
+      "item": "tm227",
+      "tm_number": 227,
+      "move": {
+        "name": "alluring-voice",
+        "id": 914,
+        "type": "fairy",
+        "damage_class": "special",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 228,
+      "item": "tm228",
+      "tm_number": 228,
+      "move": {
+        "name": "psychic-noise",
+        "id": 917,
+        "type": "psychic",
+        "damage_class": "special",
+        "power": 75,
+        "accuracy": 100,
+        "pp": 10
+      }
+    },
+    {
+      "machine_id": 229,
+      "item": "tm229",
+      "tm_number": 229,
+      "move": {
+        "name": "upper-hand",
+        "id": 918,
+        "type": "fighting",
+        "damage_class": "physical",
+        "power": 65,
+        "accuracy": 100,
+        "pp": 15
+      }
+    }
+  ]
+}

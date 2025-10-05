@@ -50,7 +50,6 @@
 
         window.fetch = async function(input, init) {
           try {
-            // Normalize to Request and URL so we can safely adjust
             let req = input instanceof Request ? input : new Request(input, init);
             let u = new URL(req.url, location.href);
 
@@ -89,14 +88,11 @@
                   log('fallback', slug, '=>', def);
                   return await origFetch(fixed);
                 }
-              } catch (_) {
-                // fall through to original 404
-              }
+              } catch (_) { /* fall through to original 404 */ }
             }
 
             return res;
           } catch (err) {
-            // Never break the app if anything goes wrong in the patch
             console && console.warn && console.warn('[PokeFix] unexpected error:', err);
             return origFetch(input, init);
           }
@@ -108,5 +104,86 @@
     <div id="root"></div>
     <!-- Vite entry -->
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- === DevKit (gated by ?dev=1) ==================================== -->
+    <div id="dev-panel" style="display:none;position:fixed;right:8px;bottom:8px;z-index:999999;background:#111;color:#fff;padding:8px 10px;border-radius:8px;font:12px ui-monospace,Menlo,Consolas,monospace;box-shadow:0 4px 12px rgba(0,0,0,.4)">
+      <button id="dev-selftest" style="margin-right:6px">Self-Test</button>
+      <button id="dev-clear">Clear cache</button>
+    </div>
+    <script>
+      (() => {
+        const DEV = /\bdev=1\b/.test(location.search);
+        if (!DEV) return;
+
+        // 1) Fatal error overlay
+        const showOverlay = (title, msg, stack) => {
+          const el = document.createElement('div');
+          el.id = 'fatal-overlay';
+          el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);color:#fff;font:14px ui-monospace,Menlo,Consolas,monospace;z-index:1000000;padding:24px;overflow:auto';
+          el.innerHTML = `<div style="max-width:1000px;margin:0 auto">
+            <h2 style="margin:0 0 8px;font-size:18px">💥 ${title}</h2>
+            <pre style="white-space:pre-wrap;margin:0 0 8px">${msg}</pre>
+            <pre style="white-space:pre-wrap;opacity:.8">${stack || ''}</pre>
+            <button id="fatal-close" style="margin-top:12px">Dismiss</button>
+          </div>`;
+          document.body.appendChild(el);
+          document.getElementById('fatal-close').onclick = () => el.remove();
+          console.error('[FATAL]', title, msg, stack);
+        };
+        window.addEventListener('error', e =>
+          showOverlay('Unhandled Error', String(e.message || e.error), e.error?.stack)
+        );
+        window.addEventListener('unhandledrejection', e => {
+          const r = e.reason || {};
+          showOverlay('Unhandled Promise Rejection', String(r.message || r || 'Unknown'), r.stack);
+        });
+
+        // 2) Debug panel
+        const panel = document.getElementById('dev-panel');
+        panel.style.display = 'block';
+        document.getElementById('dev-clear').onclick = () => { localStorage.clear(); location.reload(); };
+
+        // 3) Self-Test (non-intrusive)
+        async function runSelfTest() {
+          const results = [];
+          const push = (name, ok, note='') => results.push({name, ok, note});
+
+          try {
+            push('Root node exists', !!document.getElementById('root'));
+
+            const keys = ['ownedMoves','ownedMonIds','monMoves','monLevels'];
+            const bad = [];
+            for (const k of keys) {
+              const v = localStorage.getItem(k);
+              if (!v) continue;
+              try { JSON.parse(v); } catch { bad.push(k); }
+            }
+            push('localStorage JSON valid', bad.length === 0, bad.length ? ('Bad: '+bad.join(',')) : '');
+
+            if (typeof window.ensureTMSet === 'function') {
+              try { await window.ensureTMSet(); push('TM catalog loaded', !!window._tmCatalog && window._tmCatalog.size > 0); }
+              catch (e) { push('TM catalog loaded', false, String(e)); }
+            } else {
+              push('TM catalog (optional check)', true, 'ensureTMSet not exposed');
+            }
+
+            try {
+              const r = await fetch('https://pokeapi.co/api/v2/pokemon/pikachu/');
+              push('PokéAPI reachable', r.ok, 'status '+r.status);
+            } catch (e) {
+              push('PokéAPI reachable', false, String(e));
+            }
+
+            console.table(results);
+            alert(results.every(r=>r.ok) ? 'Self-Test passed ✅' : 'Self-Test found issues ❌ (see console)');
+          } catch (e) {
+            console.error('Self-Test fatal', e);
+            alert('Self-Test crashed. See console.');
+          }
+        }
+        document.getElementById('dev-selftest').onclick = runSelfTest;
+      })();
+    </script>
+    <!-- ================================================================ -->
   </body>
 </html>
