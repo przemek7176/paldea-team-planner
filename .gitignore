@@ -7,3 +7,6 @@ coverage
 test-results/
 playwright-report/
 coverage/
+# local helper scripts
+scripts/patch-*.mjs
+src/App.tsx.bak*
