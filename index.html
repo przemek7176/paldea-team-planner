@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>paldea-team-planner</title>
 
-    <!-- PokeAPI 404 hotfix (must run BEFORE the app boots) -->
+    <!-- PokeAPI 404 Fix (safe, fetch-only; runs BEFORE the app boots) -->
     <script>
       (() => {
         const DEV = new URLSearchParams(location.search).get('dev') === '1';
@@ -14,7 +14,7 @@
         const isPokeHost = (h) => /(^|\.)pokeapi\.co$/i.test(h);
         const normalize = (s) => String(s || '').toLowerCase().trim().replace(/:\d+$/, '');
 
-        // base species -> default form that actually exists under /pokemon/
+        // Base species -> default form that exists under /pokemon/
         const MAP = {
           lycanroc: 'lycanroc-midday',
           oricorio: 'oricorio-baile',
@@ -28,133 +28,84 @@
           basculin: 'basculin-red-striped',
           squawkabilly: 'squawkabilly-green-plumage',
           mimikyu: 'mimikyu-disguised',
-          oinkologne: 'oinkologne'
+          oinkologne: 'oinkologne' // base entry exists
         };
 
-        function rewritePokemonUrl(u) {
-          const m = u.pathname.match(/^\/api\/v2\/pokemon\/([^/]+)(\/?)$/i);
-          if (!m) return false;
-          const raw = decodeURIComponent(m[1]);
-          const key = normalize(raw);
-          const mapped = MAP[key] || key;
-          const needMap = mapped !== raw;
-          const needSlash = m[2] !== '/';
-          if (needMap || needSlash) {
-            u.pathname = `/api/v2/pokemon/${encodeURIComponent(mapped)}/`;
-            log('rewrite', raw, '->', mapped, '(slash:', needSlash, 'map:', needMap + ')');
-            return true;
-          }
-          return false;
-        }
+        const cache = new Map();
+        const origFetch = window.fetch.bind(window);
 
         async function resolveDefaultVariety(speciesSlug) {
           const key = normalize(speciesSlug);
           if (MAP[key]) return MAP[key];
-          const r = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${encodeURIComponent(key)}/`);
-          if (!r.ok) throw new Error('species lookup ' + key);
+          if (cache.has(key)) return cache.get(key);
+          const url = `https://pokeapi.co/api/v2/pokemon-species/${encodeURIComponent(key)}/`;
+          const r = await origFetch(url);
+          if (!r.ok) throw new Error(`species lookup ${key} -> ${r.status}`);
           const j = await r.json();
           const v = (j.varieties || []).find(v => v.is_default) || (j.varieties || [])[0];
-          return v?.pokemon?.name || key;
+          const name = v?.pokemon?.name || key;
+          cache.set(key, name);
+          return name;
         }
 
-        // ---- Patch Request() so ANY caller is rewritten before fetch/XHR see it ----
-        const OR = window.Request;
-        function PatchedRequest(input, init) {
-          let url = input instanceof OR ? input.url : String(input);
+        window.fetch = async function(input, init) {
           try {
-            const u = new URL(url, location.href);
-            if (isPokeHost(u.hostname) && /^\/api\/v2\/pokemon\//i.test(u.pathname)) {
-              rewritePokemonUrl(u);
-              url = u.toString();
-            }
-          } catch {}
-          return new OR(url, input instanceof OR ? input : init);
-        }
-        PatchedRequest.prototype = OR.prototype;
-        window.Request = PatchedRequest;
+            // Normalize to Request and URL so we can safely adjust
+            let req = input instanceof Request ? input : new Request(input, init);
+            let u = new URL(req.url, location.href);
 
-        // ---- fetch interceptor (adds species→variety fallback) ----
-        const OF = window.fetch.bind(window);
-        window.fetch = async (input, init) => {
-          const req = input instanceof Request ? input : new Request(String(input), init);
-          let res = await OF(req);
+            // Only touch PokéAPI /pokemon/* calls
+            if (isPokeHost(u.hostname) && /^\/api\/v2\/pokemon\/[^/]+\/?$/i.test(u.pathname)) {
+              const raw = decodeURIComponent(u.pathname.split('/').filter(Boolean).pop());
+              const key = normalize(raw);
+              const canonical = MAP[key];
 
-          if (
-            res.status === 404 &&
-            isPokeHost(new URL(res.url).hostname) &&
-            /^\/api\/v2\/pokemon\//i.test(new URL(res.url).pathname)
-          ) {
-            const slug = normalize(new URL(res.url).pathname.split('/').filter(Boolean).pop());
-            try {
-              const def = await resolveDefaultVariety(slug);
-              if (def && def !== slug) {
-                const fixed = `https://pokeapi.co/api/v2/pokemon/${def}/`;
-                log('fallback', slug, '=>', def);
-                res = await OF(fixed, init);
+              // Pre-rewrite to known default form, otherwise ensure trailing slash
+              if (canonical && canonical !== raw) {
+                u.pathname = `/api/v2/pokemon/${encodeURIComponent(canonical)}/`;
+                req = new Request(u.toString(), req);
+                log('rewrite', raw, '→', canonical);
+              } else if (!u.pathname.endsWith('/')) {
+                u.pathname += '/';
+                req = new Request(u.toString(), req);
               }
-            } catch { /* ignore */ }
-          }
-          return res;
-        };
-
-        // ---- XHR interceptor (rewrite URL before sending) ----
-        const XO = XMLHttpRequest.prototype.open;
-        XMLHttpRequest.prototype.open = function (method, url, ...rest) {
-          try {
-            const u = new URL(url, location.href);
-            if (isPokeHost(u.hostname) && /^\/api\/v2\/pokemon\//i.test(u.pathname)) {
-              rewritePokemonUrl(u);
-              url = u.toString();
             }
-          } catch {}
-          return XO.call(this, method, url, ...rest);
+
+            // First attempt
+            let res = await origFetch(req);
+            if (res.status !== 404) return res;
+
+            // If still 404 on /pokemon/<slug>/, resolve via species -> default variety
+            const url404 = new URL(res.url);
+            if (isPokeHost(url404.hostname) && /^\/api\/v2\/pokemon\/[^/]+\/$/i.test(url404.pathname)) {
+              const slug = normalize(url404.pathname.split('/').filter(Boolean).pop());
+              try {
+                const def = await resolveDefaultVariety(slug);
+                if (def && def !== slug) {
+                  const fixed = new Request(
+                    `https://pokeapi.co/api/v2/pokemon/${encodeURIComponent(def)}/`,
+                    req
+                  );
+                  log('fallback', slug, '=>', def);
+                  return await origFetch(fixed);
+                }
+              } catch (_) {
+                // fall through to original 404
+              }
+            }
+
+            return res;
+          } catch (err) {
+            // Never break the app if anything goes wrong in the patch
+            console && console.warn && console.warn('[PokeFix] unexpected error:', err);
+            return origFetch(input, init);
+          }
         };
       })();
     </script>
   </head>
   <body>
     <div id="root"></div>
-
-    <!-- DevKit: crash overlay + self-test (only with ?dev=1) -->
-    <script>
-      (function () {
-        if (new URLSearchParams(location.search).get('dev') !== '1') return;
-
-        const show = (title, msg, stack) => {
-          const el = document.createElement('div');
-          el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);color:#fff;font:14px ui-monospace,Menlo,Consolas;z-index:999999;padding:24px;overflow:auto';
-          el.innerHTML = `<div style="max-width:1000px;margin:0 auto">
-            <h2 style="margin:0 0 8px;font-size:18px">💥 ${title}</h2>
-            <pre style="white-space:pre-wrap;margin:0 0 8px">${msg}</pre>
-            <pre style="white-space:pre-wrap;opacity:.8">${stack || ''}</pre>
-            <button id="fatal-close" style="margin-top:12px">Dismiss</button></div>`;
-          document.body.appendChild(el);
-          document.getElementById('fatal-close').onclick = () => el.remove();
-          console.error('[FATAL]', title, msg, stack);
-        };
-
-        window.addEventListener('error', (e) => show('Unhandled Error', String(e.message || e.error), e.error?.stack));
-        window.addEventListener('unhandledrejection', (e) => {
-          const r = e.reason || {};
-          show('Unhandled Promise Rejection', String(r.message || r || 'Unknown'), r.stack);
-        });
-
-        const panel = document.createElement('div');
-        panel.style.cssText = 'position:fixed;right:8px;bottom:8px;z-index:999999;background:#111;color:#fff;padding:8px 10px;border-radius:8px;font:12px ui-monospace,Menlo,Consolas';
-        panel.innerHTML = '<button id="run-st">Self-Test</button> <button id="clr">Clear cache</button>';
-        document.body.appendChild(panel);
-        document.getElementById('clr').onclick = () => { localStorage.clear(); location.reload(); };
-        document.getElementById('run-st').onclick = () => {
-          console.table([
-            { name: 'Root node exists', ok: !!document.getElementById('root') },
-            { name: 'fetch patched', ok: ('' + window.fetch).includes('PokeFix') },
-            { name: 'Request patched', ok: window.Request && ('' + window.Request).includes('PatchedRequest') }
-          ]);
-          alert('Self-Test done. See console.');
-        };
-      })();
-    </script>
-
     <!-- Vite entry -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
