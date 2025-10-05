@@ -1087,32 +1087,41 @@ function proposeMoveSetsForLineup(lineupMons, learnsets){
     return proposeMoveSetsForLineup(mons, learnsets);
   }
 function SuggestionsTab(){
+    // Persisted state seed to survive remounts caused by parent re-renders
+    const __persist = (window && (window).__suggestCache) || {};
+
     const [busy,setBusy]=useState(false);
-    const [moveSwap,setMoveSwap]=useState({});
+    const [moveSwap,setMoveSwap]=useState(__persist.moveSwap || {});
     const [encGroup,setEncGroup]=useState(load("encGroup","Gyms"));
     const [encIdx,setEncIdx]=useState(load("encIdx",0));
     useEffect(()=>{save("encGroup",encGroup);save("encIdx",encIdx)},[encGroup,encIdx]);
     const groupList=Array.from(new Set(ENCOUNTERS.map(e=>e.group)));
     const groupEnc=ENCOUNTERS.filter(e=>e.group===encGroup);
     const activeEnc=groupEnc[Math.max(0,Math.min(encIdx,groupEnc.length-1))]||groupEnc[0];
-    const [encResult,setEncResult]=useState({team:[],why:[],moves:{}});
-    const [owResult,setOwResult]=useState({team:[],why:[],moves:{}});
+    const [encResult,setEncResult]=useState(__persist.encResult || {team:[],why:[],moves:{}});
+    const [owResult,setOwResult]=useState(__persist.owResult || {team:[],why:[],moves:{}});
+    // Keep a process-local cache so results persist across remounts
+    useEffect(()=>{
+      (window).__suggestCache = { moveSwap, encResult, owResult };
+    }, [moveSwap, encResult, owResult]);
     const [owMode,setOwMode]=useState("By Area");
     const regList=Object.keys(AREA_LEVELS); const [owRegion,setOwRegion]=useState(load("owRegion",regList[0])); const [owSub,setOwSub]=useState(load("owSub",Object.keys(AREA_LEVELS[regList[0]]||{})[0])); const [lvlMin,setLvlMin]=useState(load("lvlMin",15)); const [lvlMax,setLvlMax]=useState(load("lvlMax",25));
     useEffect(()=>{save("owRegion",owRegion);save("owSub",owSub);save("lvlMin",lvlMin);save("lvlMax",lvlMax)},[owRegion,owSub,lvlMin,lvlMax]);
 
     
     const inFlight = React.useRef<Promise<void> | null>(null);
+    const genRef = React.useRef(0);
 
     async function runSuggest(roster: any[], setter: (x: any) => void) {
-      if (busy || inFlight.current) return; // guard double-clicks / re-entries
+      if (inFlight.current) return; // guard concurrent runs
       setBusy(true);
+
+      const prev = setter === setEncResult ? encResult : owResult; // keep visible
+      const myGen = ++genRef.current;
+
       const job = (async () => {
         try {
-          if (!owned.length) {
-            setter({ team: [], why: [], moves: {} });
-            return;
-          }
+          if (!owned.length) { setter(prev); return; }
           const { team, why } = await suggestTeam(owned, roster);
           const movesets: Record<string, any[]> = {};
           for (const mon of team) {
@@ -1124,13 +1133,14 @@ function SuggestionsTab(){
               movesets[mon.id] = [];
             }
           }
-          setter({ team, why, moves: movesets });
+          // Only apply if this is the latest run
+          if (myGen === genRef.current) setter({ team, why, moves: movesets });
         } catch (e) {
           console.error('Suggest failed', e);
-          setter({ team: [], why: [], moves: {}, error: String(e) });
+          if (myGen === genRef.current) setter({ ...prev, error: String(e) }); // <-- spread fix
         } finally {
-          setBusy(false);
           inFlight.current = null;
+          setTimeout(() => { if (myGen === genRef.current) setBusy(false); }, 120);
         }
       })();
       inFlight.current = job;
@@ -1458,14 +1468,23 @@ function InventoryTab(props){
   React.useEffect(()=>{
     (async()=>{
       const names = Object.keys(ownedMoves||{});
-      for(const n of names){
-        if(moveMeta[n]) continue;
+      const meta = (window)._tmCatalogMeta || null;
+      for (const n of names) {
+        if (moveMeta[n]) continue;
+        const low = (n||"").toLowerCase();
+        // Fast path: use local TM catalog meta if present
+        if (meta && meta[low]) {
+          const m = meta[low];
+          setMoveMeta(prev => ({ ...prev, [n]: { type: cap(m.type||""), cat: cap(m.cat||"") } }));
+          continue;
+        }
+        // Fallback: fetch minimal move info from PokeAPI (cached)
         const url = moveIndex[n];
-        if(!url) continue;
-        try{
+        if (!url) continue;
+        try {
           const mv = await cache.get(url);
-          setMoveMeta(prev=>({...prev, [n]: { type: cap(mv.type?.name||""), cat: cap(mv.damage_class?.name||"") } }));
-        }catch(_){}
+          setMoveMeta(prev => ({ ...prev, [n]: { type: cap(mv.type?.name||""), cat: cap(mv.damage_class?.name||"") } }));
+        } catch {}
       }
     })();
   }, [ownedMoves, moveIndex]);
@@ -1730,34 +1749,89 @@ function ensureController(ms = 10000) {
  * @param {(next: any) => void=} report  optional setState updater for tmStatus
  * @returns {Promise<Set<string>>}
  */
+/**
+ * Load Scarlet/Violet TM move-name set (and move meta).
+ * Priority:
+ *   (1) localStorage cache (tmMoveSet + tmMoveMeta)
+ *   (2) local file /data/sv_tm_catalog_v1.json (fast, includes meta)
+ *   (3) PokeAPI crawl (slower), names only
+ *   (4) legacy /tm_catalog_sv.json (if present)
+ *   (5) tiny built-in dev fallback
+ *
+ * @param {(next:any)=>void=} report  setState updater for tmStatus (optional)
+ * @returns {Promise<Set<string>>}
+ */
 async function ensureTMSet(report){
   const bump = (patch) => {
-    try {
-      if (typeof report === 'function') {
-        // allow setState(function) and setState(object)
-        if (typeof patch === 'function') report(patch);
-        else report(patch);
-      }
-    } catch {}
+    try { if (typeof report === 'function') (typeof patch === 'function') ? report(patch) : report(patch); } catch {}
   };
+  const norm = (s) => String(s||'').toLowerCase().trim();
 
-  // 1) localStorage cache
+  // (1) localStorage cache
   try {
-    const cachedStr = localStorage.getItem("tmMoveSet");
-    if (cachedStr) {
-      const cached = JSON.parse(cachedStr);
-      if (Array.isArray(cached) && cached.length) {
-        const set = new Set(cached.map(String));
-        (window)._tmCatalog = set;
-        bump({ ready:true, size: set.size, loading:false, scanned: set.size, pages: 0 });
-        return set;
+    const nStr = localStorage.getItem("tmMoveSet");
+    const mStr = localStorage.getItem("tmMoveMeta"); // { [nameLower]: {type,cat} }
+    if (nStr) {
+      const names = JSON.parse(nStr);
+      const set = new Set(Array.isArray(names) ? names.map(String) : []);
+      (window)._tmCatalog = set;
+      if (mStr) {
+        try { (window)._tmCatalogMeta = JSON.parse(mStr) || {}; } catch {}
       }
+      bump({ ready:true, size:set.size, loading:false, scanned:set.size, pages:0 });
+      return set;
     }
   } catch {}
 
-  const norm = (s) => String(s).toLowerCase().trim();
+  // (2) Local JSON (CI/build artifact)
+  try {
+    // Build a BASE_URL-safe URL for GitHub Pages and Vite preview
+    const BASE = ((import.meta as any).env?.BASE_URL || '/');
+      const base = String(BASE).replace(/\/+$/, ''); String(BASE).replace(/\/+$/, '');
+    const url  = base + '/data/sv_tm_catalog_v1.json';
 
-  // 2) PokeAPI crawl with timeouts and progress
+    const r = await fetch(url, { cache: 'force-cache' });
+    if (r.ok) {
+      const j = await r.json();
+      const tms = Array.isArray(j?.tms) ? j.tms : [];
+      if (tms.length > 0) {
+        const names = [];
+        const meta = Object.create(null);
+        const norm = (s) => String(s||'').toLowerCase().trim();
+
+        for (const e of tms) {
+          const nm = norm(e?.move?.name);
+          if (!nm) continue;
+          names.push(nm);
+          meta[nm] = {
+            type: e?.move?.type || null,
+            cat:  e?.move?.damage_class || null
+          };
+        }
+
+        const set = new Set(names);
+        try {
+          localStorage.setItem('tmMoveSet', JSON.stringify(Array.from(set)));
+          localStorage.setItem('tmMoveMeta', JSON.stringify(meta));
+        } catch {}
+
+        (window)._tmCatalog     = set;
+        (window)._tmCatalogMeta = meta;
+
+        // status
+        try { typeof report === 'function' && report({ ready:true, size:set.size, loading:false, scanned:set.size, pages:0 }); } catch {}
+        return set;
+      } else {
+        console.warn('[TM] Local catalog present but empty; falling back.');
+      }
+    } else {
+      console.warn('[TM] Local catalog fetch failed:', r.status, url);
+    }
+  } catch (e) {
+    console.warn('[TM] Local catalog not available:', e?.message || e);
+  }
+
+// (3) PokeAPI crawl (names only)// (3) PokeAPI crawl (names only)
   try {
     const mvset = new Set();
     let next = "https://pokeapi.co/api/v2/machine?limit=500";
@@ -1766,10 +1840,7 @@ async function ensureTMSet(report){
 
     while (next) {
       bump(s => ({ ...(s||{}), loading:true, pages: pages + 1 }));
-      const pgCtrl = ensureController(12000);
-      const page = await fetch(next, { signal: pgCtrl.signal }).then(r => r.json());
-      pgCtrl.clear();
-
+      const page = await fetch(next).then(r => r.json());
       pages++;
       const results = page?.results || [];
       scanned += results.length;
@@ -1777,9 +1848,7 @@ async function ensureTMSet(report){
 
       for (const r of results) {
         try {
-          const mcCtrl = ensureController(8000);
-          const mc = await fetch(r.url, { signal: mcCtrl.signal }).then(r => r.json());
-          mcCtrl.clear();
+          const mc = await fetch(r.url).then(r => r.json());
           if (mc?.version_group?.name === vgName) {
             const nm = mc?.move?.name;
             if (nm) mvset.add(norm(nm));
@@ -1793,28 +1862,30 @@ async function ensureTMSet(report){
     try { localStorage.setItem("tmMoveSet", JSON.stringify(arr)); } catch {}
     const set = new Set(arr);
     (window)._tmCatalog = set;
-    bump({ ready:true, size: set.size, loading:false, scanned, pages });
+    bump({ ready:true, size:set.size, loading:false, scanned, pages });
     return set;
   } catch (e) {
-    console.warn("TM crawl failed, using local fallback:", e);
+    console.warn("[TM] PokeAPI crawl failed, trying legacy file:", e?.message || e);
   }
 
-  // 3) Local JSON fallback
+  // (4) Legacy file fallback
   try {
     const res = await fetch("/tm_catalog_sv.json");
-    const arr = await res.json();
-    const set = new Set(arr.map(norm));
-    try { localStorage.setItem("tmMoveSet", JSON.stringify(Array.from(set))); } catch {}
-    (window)._tmCatalog = set;
-    bump({ ready:true, size: set.size, loading:false, scanned: set.size, pages: 0 });
-    return set;
+    if (res.ok) {
+      const arr = await res.json();
+      const set = new Set((Array.isArray(arr)?arr:[]).map(norm));
+      try { localStorage.setItem("tmMoveSet", JSON.stringify(Array.from(set))); } catch {}
+      (window)._tmCatalog = set;
+      bump({ ready:true, size:set.size, loading:false, scanned:set.size, pages:0 });
+      return set;
+    }
   } catch {}
 
-  // 4) Emergency tiny fallback
+  // (5) Tiny dev fallback (keeps DevKit usable)
   const devFallback = ["thunderbolt","flamethrower","ice beam","energy ball","shadow ball","earthquake"];
-  const set = new Set(devFallback);
+  const set = new Set(devFallback.map(norm));
   try { localStorage.setItem("tmMoveSet", JSON.stringify(Array.from(set))); } catch {}
   (window)._tmCatalog = set;
-  bump({ ready:true, size: set.size, loading:false, scanned: set.size, pages: 0 });
+  bump({ ready:true, size:set.size, loading:false, scanned:set.size, pages:0 });
   return set;
 }
